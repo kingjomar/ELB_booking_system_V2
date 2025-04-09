@@ -14,6 +14,7 @@ ini_set('display_errors', 1);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Bernardino Resort Booking</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             background: url('https://source.unsplash.com/1600x900/?resort,pool') no-repeat center center/cover;
@@ -51,7 +52,7 @@ ini_set('display_errors', 1);
                 <?php unset($_SESSION['success'], $_SESSION['status']); ?>
             <?php endif; ?>
 
-            <form action="process_booking.php" method="POST" onsubmit="return confirmBooking()">
+            <form action="process_booking.php" method="POST" onsubmit="return confirmBooking(event)">
                 <div class="mb-3">
                     <label class="form-label">Customer Name:</label>
                     <input type="text" name="name" class="form-control" required>
@@ -226,9 +227,39 @@ ini_set('display_errors', 1);
                     document.getElementById('total_price').value = "₱" + total.toLocaleString();
                 }
 
-                function confirmBooking() {
-                    return confirm("Are you sure you want to submit this booking?");
+                async function confirmBooking(event) {
+                    event.preventDefault(); // Prevent the form from submitting immediately
+
+                    const result = await Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You want to submit this booking?",
+                        icon: 'question',  // Set the icon to question mark
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, submit it!',
+                        cancelButtonText: 'Cancel'
+                    });
+
+                    if (result.isConfirmed) {
+                        // Show the success message with a delay before submitting the form
+                        await Swal.fire({
+                            title: 'Submitted!',
+                            text: 'Your booking has been submitted.',
+                            icon: 'success',
+                            showConfirmButton: false,  // Remove the OK button
+                            timer: 2000 // Show the success message for 2 seconds
+                        });
+
+                        // After the success message timer ends, submit the form
+                        event.target.submit(); // This will submit the form
+                    } else {
+                        // If canceled, you can handle it here (optional)
+                        Swal.fire('Cancelled', 'Your booking was not submitted.', 'info');
+                    }
                 }
+
+
+
+
 
                 document.addEventListener("DOMContentLoaded", () => {
                         // Barkada Toggle
