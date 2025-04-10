@@ -188,7 +188,7 @@ ini_set('display_errors', 1);
 
                 <div class="mb-3">
                     <label class="form-label"><strong>Total Price:</strong></label>
-                    <input type="text" id="total_price" class="form-control" readonly>
+                    <input type="text" id="total_price" name="total_price" class="form-control" readonly>
                 </div>
 
                 <button type="submit" class="btn btn-green w-100">Submit Booking</button>

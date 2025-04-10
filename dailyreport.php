@@ -37,7 +37,9 @@ $summaryQuery = "
         SUM(kids_seniors_pwds) AS total_seniors_pwds, 
         SUM(total_pax) AS total_pax, 
         COUNT(*) AS total_bookings, 
-        SUM(total_amount) AS total_amount
+        SUM(total_amount) AS total_amount,
+        SUM(entrance_fee) AS total_entrance,
+        SUM(cottage_room_fee) AS total_unit_rate
     FROM bookings 
     WHERE check_in_date = '$currentDate'";
 $summaryResult = $conn->query($summaryQuery);
@@ -45,7 +47,7 @@ $summaryRow = $summaryResult->fetch_assoc();
 
 // Get booking details for the selected date
 $detailsQuery = "
-    SELECT booking_number, firstname, lastname, contact, swimming_type, 3yrs_old_below, adults, kids_seniors_pwds, total_pax, total_amount, check_in_time, check_out_time
+    SELECT booking_number, firstname, lastname, contact, swimming_type, 3yrs_old_below, adults, kids_seniors_pwds, cottage_type, room_type, total_pax, total_amount, check_in_time, check_out_time
     FROM bookings 
     WHERE check_in_date = '$currentDate' 
     ORDER BY check_in_time ASC";
@@ -68,7 +70,7 @@ $detailsResult = $conn->query($detailsQuery);
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1600px;
             background: white;
             padding: 20px;
             border-radius: 8px;
@@ -94,6 +96,7 @@ $detailsResult = $conn->query($detailsQuery);
             margin-bottom: 10px;
             font-weight: bold;
             color: #007bff;
+            
         }
 
         table {
@@ -154,12 +157,14 @@ $detailsResult = $conn->query($detailsQuery);
             <?php echo date("F j, Y", strtotime($currentDate)); ?>
         </div>
         <p class="summary">
+        Total Bookings: <strong><?php echo $summaryRow['total_bookings']; ?></strong> |
             Kids: <strong><?php echo $summaryRow['total_kids']; ?></strong> |
             Adults: <strong><?php echo $summaryRow['total_adults']; ?></strong> |
             Seniors/PWDs: <strong><?php echo $summaryRow['total_seniors_pwds']; ?></strong> |
             Total Pax: <strong><?php echo $summaryRow['total_pax']; ?></strong> |
-            Total Bookings: <strong><?php echo $summaryRow['total_bookings']; ?></strong> |
-            Total Amount: <strong>₱<?php echo number_format($summaryRow['total_amount'], 2); ?></strong>
+            Total Entrance Fee: <strong>₱<?php echo number_format($summaryRow['total_entrance'], 2); ?></strong> |
+            Total Unit Rate: <strong>₱<?php echo number_format($summaryRow['total_unit_rate'], 2); ?></strong> |
+            Total Amount: <strong>₱<?php echo number_format($summaryRow['total_amount'], 2); ?></strong> 
         </p>
 
         <?php if ($detailsResult->num_rows > 0) { ?>
@@ -173,6 +178,8 @@ $detailsResult = $conn->query($detailsQuery);
                         <th>3yrs old</th>
                         <th>Adults</th>
                         <th>Seniors/PWDs</th>
+                        <th>Cottage Type</th>
+                        <th>Room Type</th>
                         <th>Total Pax</th>
                         <th>Total Amount</th>
                         <th>Check-in Time</th>
@@ -189,6 +196,21 @@ $detailsResult = $conn->query($detailsQuery);
                             <td><?php echo htmlspecialchars($row['3yrs_old_below']); ?></td>
                             <td><?php echo htmlspecialchars($row['adults']); ?></td>
                             <td><?php echo htmlspecialchars($row['kids_seniors_pwds']); ?></td>
+                            <td><?php 
+                            $cottage = "";
+                            if($row['cottage_type'] === 'Cave'){
+                                $cottage = "Cave 10 pax";
+                            }elseif($row['cottage_type'] === 'Cave20'){
+                                $cottage = "Cave 20 pax";
+                            }elseif($row['cottage_type'] === 'Nipa'){
+                                $cottage = "Nipa 10 pax";
+                            }elseif($row['cottage_type'] === 'Nipa20'){
+                                $cottage = "Nipa 20 pax";
+                            }else{
+                                $cottage = "Cabana 10 pax";
+                            }
+                            echo $cottage; ?></td>
+                            <td><?php echo htmlspecialchars($row['room_type'] === "" ? "None" : $row['room_type']); ?></td>
                             <td><?php echo htmlspecialchars($row['total_pax']); ?></td>
                             <td>₱<?php echo number_format($row['total_amount'], 2); ?></td>
                             <td>
