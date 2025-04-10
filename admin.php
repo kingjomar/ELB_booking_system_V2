@@ -168,7 +168,7 @@ if (isset($_GET['logout'])) {
             <tbody>
                 <?php while ($row = $result->fetch_assoc()) { ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($row['name']); ?></td>
+                        <td><?php echo htmlspecialchars($row['firstname']. ' ' .$row['lastname']); ?></td>
                         <td><?php echo htmlspecialchars($row['contact']); ?></td>
                         <td><?php echo htmlspecialchars($row['booking_number']); ?></td>
                         <td>

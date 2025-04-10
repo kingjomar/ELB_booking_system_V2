@@ -42,7 +42,7 @@ ini_set('display_errors', 1);
 <body>
     <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
         <div class="col-md-8 booking-container">
-            <h2 class="text-center text-success">El Bernardino Resort Booking</h2>
+            <h2 class="text-center text-success mb-5">El Bernardino Resort Booking</h2>
 
             <?php if (isset($_SESSION['success'])): ?>
                 <div class="alert alert-success" id="alert-success">
@@ -53,10 +53,23 @@ ini_set('display_errors', 1);
             <?php endif; ?>
 
             <form action="process_booking.php" method="POST" onsubmit="return confirmBooking(event)">
-                <div class="mb-3">
-                    <label class="form-label">Customer Name:</label>
-                    <input type="text" name="name" class="form-control" required>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">First Name:</label>
+                    <input type="text" name="first_name" class="form-control" required>
                 </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Middle Name:</label>
+                    <input type="text" name="middle_name" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Last Name:</label>
+                    <input type="text" name="last_name" class="form-control" required>
+                </div>
+            </div>
+
 
                 <div class="mb-3">
                     <label class="form-label">Contact:</label>

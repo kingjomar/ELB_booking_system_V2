@@ -4,7 +4,9 @@ include 'db_connect.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
+    $firstname = $_POST['first_name'];
+    $middlename = $_POST['middle_name'];
+    $lastname = $_POST['last_name'];
     $contact = $_POST['contact'];
     $address = $_POST['address'];
     $swimming_type = $_POST['swimming_type'];
@@ -17,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $room_qty = !empty($_POST['room_qty']) ? (int)$_POST['room_qty'] : 0;
     $cottage_type = !empty($_POST['cottage_type']) ? $_POST['cottage_type'] : NULL;
     $cottage_qty = !empty($_POST['cottage_qty']) ? (int)$_POST['cottage_qty'] : 0;
+    $total_amount = (int)$_POST['total_price'];
 
     // Validate total pax count
     $calculated_pax = $adults + $seniors;
@@ -51,23 +54,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($room_type == 'Deluxe') $room_price = 3000;
     elseif ($room_type == 'Standard') $room_price = 3500;
     elseif ($room_type == 'Family') $room_price = 5000;
+    $room_price *= $room_qty;
 
-    $total_price = $adults_total + $seniors_total + $cottage_price + $room_price;
+    // ✅ Final Total Amount - use this for database insert
+    $total_amount = $adults_total + $seniors_total + $cottage_price + $room_price;
+
 
     // Insert into database
     $query = "INSERT INTO bookings (
-        name, contact, address, booking_number, date_of_reservation, date_of_inquiry,
+        firstname, middlename, lastname, contact, address, booking_number, date_of_reservation, date_of_inquiry,
         swimming_type, total_pax, 3yrs_old_below, adults, kids_seniors_pwds,
         room_type, room_quantity, cottage_type, cottage_quantity, total_amount, status
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')";
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')";
     
     // Prepare the statement
     $stmt = $conn->prepare($query);
     
     // Bind parameters (16 in total, excluding the 'Pending' status)
     $stmt->bind_param(
-        "sssssssiiiisssii",
-        $name,
+        "sssssssssiiiisssii",
+        $firstname,
+        $middlename,
+        $lastname,
         $contact,
         $address,
         $booking_number,
@@ -82,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $room_qty,
         $cottage_type,
         $cottage_qty,
-        $total_price
+        $total_amount
     );
     
 

@@ -3,7 +3,7 @@ include 'db_connect.php';
 include 'auth.php';
 
 // Get total unique check-in dates
-$totalDatesQuery = "SELECT COUNT(DISTINCT check_in_date) AS total_dates FROM bookings";
+$totalDatesQuery = "SELECT COUNT(DISTINCT check_in_date) AS total_dates FROM bookings WHERE check_in_date IS NOT NULL";
 $totalDatesResult = $conn->query($totalDatesQuery);
 $totalDatesRow = $totalDatesResult->fetch_assoc();
 $totalDates = $totalDatesRow['total_dates'];
@@ -16,8 +16,10 @@ $offset = ($page - 1) * $limit;
 $dateQuery = "
     SELECT DISTINCT check_in_date 
     FROM bookings 
+    WHERE check_in_date IS NOT NULL
     ORDER BY check_in_date ASC 
     LIMIT $limit OFFSET $offset";
+
 $dateResult = $conn->query($dateQuery);
 $currentDateRow = $dateResult->fetch_assoc();
 
@@ -30,7 +32,7 @@ $currentDate = $currentDateRow['check_in_date'];
 // Get total pax breakdown and total amount for the selected date
 $summaryQuery = "
     SELECT 
-        SUM(kids) AS total_kids, 
+        SUM(3yrs_old_below) AS total_kids, 
         SUM(adults) AS total_adults, 
         SUM(kids_seniors_pwds) AS total_seniors_pwds, 
         SUM(total_pax) AS total_pax, 
@@ -43,7 +45,7 @@ $summaryRow = $summaryResult->fetch_assoc();
 
 // Get booking details for the selected date
 $detailsQuery = "
-    SELECT booking_number, name, contact, swimming_type, kids, adults, kids_seniors_pwds, total_pax, total_amount, check_in_time, check_out_time
+    SELECT booking_number, firstname, lastname, contact, swimming_type, 3yrs_old_below, adults, kids_seniors_pwds, total_pax, total_amount, check_in_time, check_out_time
     FROM bookings 
     WHERE check_in_date = '$currentDate' 
     ORDER BY check_in_time ASC";
@@ -181,10 +183,10 @@ $detailsResult = $conn->query($detailsQuery);
                     <?php while ($row = $detailsResult->fetch_assoc()) { ?>
                         <tr>
                             <td><?php echo htmlspecialchars($row['booking_number']); ?></td>
-                            <td><?php echo htmlspecialchars($row['name']); ?></td>
+                            <td><?php echo htmlspecialchars($row['firstname']. ' ' . $row['lastname']); ?></td>
                             <td><?php echo htmlspecialchars($row['contact']); ?></td>
                             <td><?php echo htmlspecialchars($row['swimming_type']); ?> swimming</td>
-                            <td><?php echo htmlspecialchars($row['kids']); ?></td>
+                            <td><?php echo htmlspecialchars($row['3yrs_old_below']); ?></td>
                             <td><?php echo htmlspecialchars($row['adults']); ?></td>
                             <td><?php echo htmlspecialchars($row['kids_seniors_pwds']); ?></td>
                             <td><?php echo htmlspecialchars($row['total_pax']); ?></td>
