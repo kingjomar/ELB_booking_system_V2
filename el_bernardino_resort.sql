@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2025 at 04:30 AM
+-- Generation Time: Apr 11, 2025 at 07:53 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,7 +48,9 @@ INSERT INTO `admin` (`id`, `username`, `password`) VALUES
 
 CREATE TABLE `bookings` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `middlename` varchar(250) NOT NULL,
+  `lastname` varchar(250) NOT NULL,
   `contact` varchar(50) NOT NULL,
   `address` text NOT NULL,
   `booking_number` int(11) NOT NULL,
@@ -68,27 +70,20 @@ CREATE TABLE `bookings` (
   `room_type` enum('Deluxe','Standard','Family') DEFAULT NULL,
   `room_quantity` int(11) DEFAULT 0,
   `total_amount` decimal(10,2) NOT NULL,
-  `status` enum('pending','approved','checked_out') DEFAULT 'pending'
+  `status` enum('pending','approved','checked_out') DEFAULT 'pending',
+  `entrance_fee` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `cottage_room_fee` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`id`, `name`, `contact`, `address`, `booking_number`, `date_of_reservation`, `date_of_inquiry`, `check_in_date`, `check_in_time`, `check_out_date`, `check_out_time`, `swimming_type`, `total_pax`, `3yrs_old_below`, `adults`, `kids_seniors_pwds`, `cottage_type`, `cottage_quantity`, `room_type`, `room_quantity`, `total_amount`, `status`) VALUES
-(25, 'King', '09068293575', 'asas', 188423, '2025-04-03', '2025-04-03 00:16:38', '0000-00-00', '00:00:14', NULL, NULL, 'night', 10, 0, 1, 9, '', 1, '', 0, 3440.00, 'pending'),
-(26, 'King', '09068293575', 'asas', 106977, '2025-04-03', '2025-04-03 00:25:27', '0000-00-00', '00:00:14', NULL, NULL, 'daytour', 10, 0, 1, 9, '', 1, '', 0, 3276.00, 'pending'),
-(27, 'king', '09068293575', 'asas', 801103, '2025-04-03', '2025-04-03 00:38:21', '0000-00-00', '00:00:14', NULL, NULL, 'daytour', 10, 0, 1, 9, '0', 1, '', 0, 1476.00, 'pending'),
-(28, 'king', '09068293575', 'asas', 942069, '2025-04-03', '2025-04-03 00:42:41', '0000-00-00', '00:00:14', NULL, NULL, 'daytour', 10, 0, 1, 9, '0', 1, '', 0, 1476.00, 'pending'),
-(29, 'king', '09068293575', 'asas', 659711, '2025-04-03', '2025-04-03 00:44:27', '0000-00-00', '00:00:14', NULL, NULL, 'night', 10, 0, 1, 9, '0', 1, '', 0, 3440.00, 'pending'),
-(30, 'king', '09068293575', 'asas', 155950, '2025-04-03', '2025-04-03 01:24:53', NULL, NULL, NULL, NULL, 'night', 10, 0, 1, 9, '0', 1, '', 0, 3440.00, 'pending'),
-(31, 'king', '09068293575', 'asas', 187758, '2025-04-18', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, 'daytour', 10, 0, 1, 9, '0', 0, 'Standard', 1, 4976.00, 'pending'),
-(32, 'King James', '09068293575', '35 Alauli Road Tabuyuc', 976668, '2025-04-08', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, 'daytour', 6, 1, 1, 5, '0', 0, 'Standard', 1, 4400.00, 'pending'),
-(33, 'King James', '09068293575', '35 Alauli Road Tabuyuc', 380845, '2025-04-09', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, 'night', 6, 1, 1, 5, '0', 1, '', 0, 1000.00, 'pending'),
-(34, 'King James', '09068293575', '35 Alauli Road Tabuyuc', 140381, '2025-04-09', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, 'daytour', 6, 1, 1, 5, 'None', 0, 'Deluxe', 1, 3900.00, 'pending'),
-(35, 'King James', '09068293575', '35 Alauli Road Tabuyuc', 197379, '2025-04-09', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, 'night', 6, 1, 1, 5, 'Nipa20', 1, '', 0, 1000.00, 'pending'),
-(36, 'King James', '09068293575', '35 Alauli Road Tabuyuc', 509484, '2025-04-09', '2025-04-08 20:23:22', NULL, NULL, NULL, NULL, 'daytour', 6, 1, 1, 5, 'None', 0, 'Deluxe', 1, 3900.00, 'pending'),
-(37, 'King James', '09068293575', '35 Alauli Road Tabuyuc', 520439, '2025-04-17', '2025-04-09 02:25:37', NULL, NULL, NULL, NULL, 'night', 6, 1, 1, 5, 'Cave20', 1, '', 0, 1000.00, 'pending');
+INSERT INTO `bookings` (`id`, `firstname`, `middlename`, `lastname`, `contact`, `address`, `booking_number`, `date_of_reservation`, `date_of_inquiry`, `check_in_date`, `check_in_time`, `check_out_date`, `check_out_time`, `swimming_type`, `total_pax`, `3yrs_old_below`, `adults`, `kids_seniors_pwds`, `cottage_type`, `cottage_quantity`, `room_type`, `room_quantity`, `total_amount`, `status`, `entrance_fee`, `cottage_room_fee`) VALUES
+(58, 'king', 'ocampo', 'carlos', '09068293575', '35 Alauli Road Tabuyuc', 640990, '2025-04-26', '2025-04-10 08:07:57', '2025-04-10', '16:11:53', NULL, NULL, 'night', 10, 1, 10, 0, 'Cave20', 1, '', 0, 3800.00, 'approved', 2000.00, 1800.00),
+(59, 'king', 'ocampo', 'carlos', '09068293575', '35 Alauli Road Tabuyuc', 103101, '2025-04-10', '2025-04-10 08:09:17', '2025-04-10', '16:11:57', NULL, NULL, 'daytour', 10, 1, 10, 0, 'Nipa', 1, '', 0, 2800.00, 'approved', 1800.00, 1000.00),
+(60, 'king', 'ocampo', 'carlos', '09068293575', '35 Alauli Road Tabuyuc', 890980, '2025-04-10', '2025-04-10 09:02:43', '2025-04-10', '17:04:41', NULL, NULL, 'night', 13, 1, 13, 0, 'Cave', 1, 'Standard', 1, 7100.00, 'approved', 2600.00, 4500.00),
+(61, 'king', 'ocampo', 'carlos', '09068293575', '35 Alauli Road Tabuyuc', 792038, '2025-04-10', '2025-04-10 09:04:13', NULL, NULL, NULL, NULL, 'night', 13, 1, 13, 0, 'Cave20', 1, '', 0, 4400.00, 'pending', 2600.00, 1800.00);
 
 --
 -- Indexes for dumped tables
@@ -122,7 +117,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
