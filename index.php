@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style_index.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    </script>
+
 </head>
 
 <body>
@@ -26,7 +26,7 @@
             <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarNav">
                 <ul class="navbar-nav me-3">
                     <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.php">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Offers</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Gallery</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
@@ -164,18 +164,214 @@
 
     <div class="mt-4">
         <h3 class="text-center">OFFERS</h3>
+        <div class="mt-2 mb-2 d-flex justify-content-center">
+            <div class="mt-4 d-flex flex-column align-items-center gap-4">
+
+                <!-- Card 1: Image Left -->
+                <div class="border shadow p-3 d-flex rounded" style="width: 1200px; height: 300px;">
+                    <img src="images/background.jpg" class="rounded"
+                        style="width: 300px; height: 100%; object-fit: cover;" alt="Offer Image">
+                    <div class="d-flex flex-column justify-content-between ps-3 py-1">
+                        <div>
+                            <h4 class="fw-semibold mb-2">Special Offer 1</h4>
+                            <p class="text-muted" style="max-width: 800px;">Lorem ipsum dolor sit amet, consectetur
+                                adipisicing elit. Impedit corrupti ex placeat aut hic, dignissimos dolore perferendis,
+                                earum autem, magni aspernatur laborum quae. Iure ullam illo ab eum at, quidem numquam
+                                enim!</p>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-primary btn-sm w-25">Claim Offer</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Card 2: Image Right -->
+                <div class="border shadow p-3 d-flex flex-row-reverse rounded" style="width: 1200px; height: 300px;">
+                    <img src="images/background.jpg" class="rounded"
+                        style="width: 300px; height: 100%; object-fit: cover;" alt="Offer Image">
+                    <div class="d-flex flex-column justify-content-between pe-3 py-1 text-end">
+                        <div>
+                            <h4 class="fw-semibold mb-2">Special Offer 2</h4>
+                            <p class="text-muted" style="max-width: 800px;">Lorem ipsum dolor sit amet consectetur,
+                                adipisicing elit. Blanditiis quaerat soluta sed odio nulla! Animi molestias atque
+                                debitis modi tempore doloribus, ducimus culpa, non sed voluptatum repudiandae. Veniam
+                                maxime eligendi doloremque autem!</p>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-primary btn-sm w-25">Claim Offer</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Card 3: Image Left (repeat style of card 1) -->
+                <div class="border shadow p-3 d-flex rounded" style="width: 1200px; height: 300px;">
+                    <img src="images/background.jpg" class="rounded"
+                        style="width: 300px; height: 100%; object-fit: cover;" alt="Offer Image">
+                    <div class="d-flex flex-column justify-content-between ps-3 py-1">
+                        <div>
+                            <h4 class="fw-semibold mb-2">Special Offer 3</h4>
+                            <p class="text-muted" style="max-width: 800px;">Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Delectus distinctio numquam nesciunt modi doloribus repellat ut minus
+                                sint officia, eligendi deleniti consectetur nulla culpa mollitia ea asperiores
+                                doloremque odit possimus a aperiam!</p>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-primary btn-sm w-25">Claim Offer</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Card 4: Image Right (repeat style of card 2) -->
+                <div class="border shadow p-3 d-flex flex-row-reverse rounded" style="width: 1200px; height: 300px;">
+                    <img src="images/background.jpg" class="rounded"
+                        style="width: 300px; height: 100%; object-fit: cover;" alt="Offer Image">
+                    <div class="d-flex flex-column justify-content-between pe-3 py-1 text-end">
+                        <div>
+                            <h4 class="fw-semibold mb-2">Special Offer 4</h4>
+                            <p class="text-muted" style="max-width: 800px;">Lorem ipsum dolor sit amet consectetur,
+                                adipisicing elit. Necessitatibus deleniti quo, voluptas nemo atque eius! Minus vel
+                                repellendus pariatur minima beatae. Reiciendis iusto consequatur alias dolores dolore
+                                dicta amet consectetur autem quia?</p>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-primary btn-sm w-25">Claim Offer</button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="feedback mt-5 mb-5">
+        <h3 class="text-center mb-4">Your Feedback</h3>
+        <div class="d-flex justify-content-center ">
+            <div class="border shadow p-4 w-75 rounded bg-white">
+                <!-- Feedback Form -->
+                <div class="mb-3">
+                    <div class="d-flex justify-content-center">
+                        <label for="feedbackMessage" class="form-label">Your Message</label>
+                    </div>
+                    <textarea class="form-control" id="feedbackMessage" rows="4"
+                        placeholder="Write your feedback..."></textarea>
+                </div>
+
+                <!-- Star Rating -->
+                <div class="mb-3">
+                    <div class="d-flex justify-content-center">
+                        <label for="rating" class="form-label">Rating</label>
+                    </div>
+                    <div id="rating" class="d-flex justify-content-center">
+                        <!-- Stars -->
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-primary w-25">Submit Feedback</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 
+
+
+
     <!-- Footer -->
-    <footer class="text-center">
+    <footer class="bg-dark text-white py-4">
         <div class="container">
-            <p class="mb-1">&copy; 2025 Your Company Name. All rights reserved.</p>
-            <p class="mb-0">
-                <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
-            </p>
+            <div class="row">
+                <!-- Left Section: Logo and Facebook Icon -->
+                <div class="col-md-4 mb-3 text-center">
+                    <img src="images/logo.png" alt="El Bernardino Resort Logo" style="max-width: 170px;">
+                    <div class="mt-2">
+                        <h5 class=""><i>"A PLACE TO PAUSE, A MOMENT TO REMEMBER"</i></h5>
+                        <a href="https://www.facebook.com/elbernardinoresort" target="_blank">
+                            <i class="fab fa-facebook fa-2x text-white"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Middle Section: Contact Info -->
+                <div class="col-md-4  text-center">
+                    <h5>Contact</h5>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <i class="fas fa-envelope me-2"></i>
+                        <p class="mt-3">theresort.acctg@gmail.com</p>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <i class="fas fa-phone-alt me-2"></i>
+                        <p class="mt-3">0996-811-1165 / 0960-464-9711</p>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        <p class="mt-3">San Pedro Rd., Brgy. San Matias, Sto. Tomas Pampanga</p>
+                    </div>
+                </div>
+
+                <!-- Right Section: Latest Offers -->
+                <div class="col-md-4 mb-3 text-center">
+                    <h5>Get Latest Offers</h5>
+                    <p>Sign up to receive the latest offers and news!</p>
+                    <form>
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Enter your email" aria-label="Email">
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Full Width Divider -->
+            <hr class="footer-divider">
+
+            <!-- Bottom Section: Copyright & Links -->
+            <div class="row">
+                <div class="col text-center">
+                    <p class="mb-1">&copy; 2025 El Bernardino Resort. All rights reserved.</p>
+                    <p class="mb-0">
+                        <a href="#" class="text-white">Privacy Policy</a> |
+                        <a href="#" class="text-white">Terms of Service</a>
+                    </p>
+                </div>
+            </div>
         </div>
     </footer>
+
+
+
+
+    <script>
+    const stars = document.querySelectorAll('.star');
+    let currentRating = 0;
+
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            // Get the rating value from the clicked star
+            currentRating = parseInt(star.getAttribute('data-value'));
+
+            // Update the star ratings based on the clicked star
+            stars.forEach(star => {
+                const starValue = parseInt(star.getAttribute('data-value'));
+                if (starValue <= currentRating) {
+                    star.classList.add('checked');
+                } else {
+                    star.classList.remove('checked');
+                }
+            });
+        });
+    });
+    </script>
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
