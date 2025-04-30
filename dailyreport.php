@@ -58,9 +58,11 @@ $detailsResult = $conn->query($detailsQuery);
 <html lang="en">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Report - El Bernardino Resort</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -130,6 +132,9 @@ $detailsResult = $conn->query($detailsQuery);
 
         .pagination {
             margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items:center;
         }
 
         .pagination a {
@@ -145,6 +150,28 @@ $detailsResult = $conn->query($detailsQuery);
             background: #ccc;
             pointer-events: none;
         }
+        .download-btn {
+        padding: 10px 20px;
+        background-color: white;
+        color: green;
+        border-color: green;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .download-btn:hover {
+        background-color: green;
+        color:white;
+        border-color: white;
+
+    }
+    .excel{
+        position: relative;
+        margin-top: -50px;
+        
+    }
     </style>
 </head>
 
@@ -152,7 +179,12 @@ $detailsResult = $conn->query($detailsQuery);
 
     <div class="container">
         <h2>Daily Report - Booking Summary</h2>
-
+        <div class="excel d-flex justify-content-end">
+        <form id="excelForm" action="download_excel.php" method="post" >
+        <button type="button" id="downloadBtn" class="btn btn-outline-success mb-3">Download Excel</button>
+        </div>
+        
+    </form>
         <div class="date-header">
             <?php echo date("F j, Y", strtotime($currentDate)); ?>
         </div>
@@ -249,8 +281,53 @@ $detailsResult = $conn->query($detailsQuery);
             <?php } else { ?>
                 <a class="disabled">Next →</a>
             <?php } ?>
+
         </div>
+        <div class="excel d-flex justify-content-end">
+        <form id="monthly" action ="monthlyreport.php" method="post" >
+        <button type="button" id="monthlyreport" class="btn btn-outline-success mb-3">Monthly Report</button>
+        </div>
+        
     </div>
+    <div>
+   
+</div>
+<script>
+    document.getElementById('downloadBtn').addEventListener('click', function (e) {
+        Swal.fire({
+            title: 'Download Excel?',
+            text: "Do you want to download the report in Excel format?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#aaa',
+            confirmButtonText: 'Yes, download it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('excelForm').submit();
+            }
+        });
+    });
+</script>
+<script>
+    document.getElementById('monthlyreport').addEventListener('click', function (e) {
+        Swal.fire({
+            title: 'Proceed to Monthly Report?',
+            text: "Do you want to go to Monthly Report?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#aaa',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('monthly').submit();
+            }
+        });
+    });
+</script>
+
+    
 
 </body>
 

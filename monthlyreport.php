@@ -84,6 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <h5 class="mb-0 text-center fs-3">Monthly Report</h5>
             </div>
             <div class="card-body table-responsive">
+                <a href="export_monthly_report.php" class="btn btn-outline-success mb-3">Download Excel</a>
+
                 <table class="table table-hover table-bordered text-center align-middle">
                     <thead class="table-primary">
                         <tr>
@@ -124,6 +126,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                             $summaryResult = $conn->query($summaryQuery);
                             $summary = $summaryResult->fetch_assoc();
+                            // Transfer monthly summary to monthly_report
+                            $total_bookings = $summary['total_bookings'] ?? 0;
+                            $total_pax = $summary['total_pax'] ?? 0;
+                            $total_kids = $summary['total_kids'] ?? 0;
+                            $total_adults = $summary['total_adults'] ?? 0;
+                            $total_senior_pwd = $summary['total_senior_pwd'] ?? 0;
+                            $total_entrance = $summary['total_entrance'] ?? 0.00;
+                            $total_unit_rate = $summary['total_unit_rate'] ?? 0.00;
+                            $total_amount = $summary['total_amount'] ?? 0.00;
+
+                            $insertOrUpdate = "
+                                INSERT INTO monthly_report 
+                                    (month, total_bookings, total_pax, total_kids, total_adults, total_senior_pwd, total_entrance, total_unit_rate, total_amount)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                ON DUPLICATE KEY UPDATE
+                                    total_bookings = VALUES(total_bookings),
+                                    total_pax = VALUES(total_pax),
+                                    total_kids = VALUES(total_kids),
+                                    total_adults = VALUES(total_adults),
+                                    total_senior_pwd = VALUES(total_senior_pwd),
+                                    total_entrance = VALUES(total_entrance),
+                                    total_unit_rate = VALUES(total_unit_rate),
+                                    total_amount = VALUES(total_amount)
+                            ";
+
+                            $stmt = $conn->prepare($insertOrUpdate);
+                            $stmt->bind_param(
+                                'siiiiiddd',
+                                $currentMonth,
+                                $total_bookings,
+                                $total_pax,
+                                $total_kids,
+                                $total_adults,
+                                $total_senior_pwd,
+                                $total_entrance,
+                                $total_unit_rate,
+                                $total_amount
+                            );
+                            $stmt->execute();
+
                         ?>
                         <form method="POST" action="monthlyreport.php">
                             <tr>

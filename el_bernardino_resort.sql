@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 30, 2025 at 05:23 AM
+-- Generation Time: Apr 30, 2025 at 10:50 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -114,8 +114,7 @@ CREATE TABLE `monthly_report` (
 --
 
 INSERT INTO `monthly_report` (`id`, `month`, `total_bookings`, `total_pax`, `total_kids`, `total_adults`, `total_senior_pwd`, `total_entrance`, `total_unit_rate`, `total_amount`, `bcoh`, `expenses`, `salary`, `rem`, `ecoh`) VALUES
-(1, '2025-03', 10, 25, 3, 12, 5, 1500.00, 6000.00, 8000.00, 500.00, 2000.00, 2500.00, 4500.00, 5000.00),
-(2, '2025-04', 12, 30, 4, 14, 6, 1800.00, 7200.00, 9000.00, 1000.00, 0.00, 3000.00, 15100.00, 16100.00);
+(22, '2025-04', 4, 50, 4, 46, 0, 9000.00, 9100.00, 18100.00, 1000.00, 0.00, 0.00, 18100.00, 19100.00);
 
 --
 -- Indexes for dumped tables
@@ -139,7 +138,8 @@ ALTER TABLE `bookings`
 -- Indexes for table `monthly_report`
 --
 ALTER TABLE `monthly_report`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `month` (`month`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -161,7 +161,7 @@ ALTER TABLE `bookings`
 -- AUTO_INCREMENT for table `monthly_report`
 --
 ALTER TABLE `monthly_report`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

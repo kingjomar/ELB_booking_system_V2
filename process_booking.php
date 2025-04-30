@@ -64,42 +64,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     // Insert into database
-    $query = "INSERT INTO bookings (
-        firstname, middlename, lastname, contact, address, booking_number, date_of_reservation, date_of_inquiry,
+    $cottage_room_fee = $cottage_fee + $room_fee;
+
+    $insertBooking = "INSERT INTO bookings (
+        booking_number, first_name, middle_name, last_name, contact, address,
         swimming_type, total_pax, 3yrs_old_below, adults, kids_seniors_pwds,
-        room_type, room_quantity, cottage_type, cottage_quantity,
-        entrance_fee, cottage_room_fee, total_amount, status
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')";
-    
-    
-    // Prepare the statement
-    $stmt = $conn->prepare($query);
-    
-    // Bind parameters (16 in total, excluding the 'Pending' status)
-    $stmt->bind_param(
-        "sssssssssiiiisisiddd",
-        $firstname,
-        $middlename,
-        $lastname,
-        $contact,
-        $address,
-        $booking_number,
-        $date_of_reservation,
-        $date_of_inquiry,
-        $swimming_type,
-        $total_pax,
-        $three_yrs,
-        $adults,
-        $seniors,
-        $room_type,
-        $room_qty,
-        $cottage_type,
-        $cottage_qty,
-        $entrance_fee,
-        $cottage_room_fee,
-        $total_amount
-    );
-    
+        date_of_reservation, room_type, room_qty, cottage_type, cottage_qty,
+        entrance_fee, cottage_room_fee, total_amount, date_of_inquiry
+    ) VALUES (
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+    )";
+    $stmt = $conn->prepare($insertBooking);
+    $stmt->bind_param("sssssssiiiissssiidds",
+    $booking_number, $firstname, $middlename, $lastname, $contact, $address,
+    $swimming_type, $total_pax, $three_yrs, $adults, $seniors,
+    $date_of_reservation, $room_type, $room_qty, $cottage_type, $cottage_qty,
+    $entrance_fee, $cottage_room_fee, $total_amount, $date_of_inquiry
+);
+
     
 
 
