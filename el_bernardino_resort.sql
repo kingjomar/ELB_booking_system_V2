@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2025 at 07:53 AM
+-- Generation Time: Apr 30, 2025 at 05:23 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -85,6 +85,38 @@ INSERT INTO `bookings` (`id`, `firstname`, `middlename`, `lastname`, `contact`, 
 (60, 'king', 'ocampo', 'carlos', '09068293575', '35 Alauli Road Tabuyuc', 890980, '2025-04-10', '2025-04-10 09:02:43', '2025-04-10', '17:04:41', NULL, NULL, 'night', 13, 1, 13, 0, 'Cave', 1, 'Standard', 1, 7100.00, 'approved', 2600.00, 4500.00),
 (61, 'king', 'ocampo', 'carlos', '09068293575', '35 Alauli Road Tabuyuc', 792038, '2025-04-10', '2025-04-10 09:04:13', NULL, NULL, NULL, NULL, 'night', 13, 1, 13, 0, 'Cave20', 1, '', 0, 4400.00, 'pending', 2600.00, 1800.00);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `monthly_report`
+--
+
+CREATE TABLE `monthly_report` (
+  `id` int(11) NOT NULL,
+  `month` varchar(7) NOT NULL,
+  `total_bookings` int(11) DEFAULT 0,
+  `total_pax` int(11) DEFAULT 0,
+  `total_kids` int(11) DEFAULT 0,
+  `total_adults` int(11) DEFAULT 0,
+  `total_senior_pwd` int(11) DEFAULT 0,
+  `total_entrance` decimal(10,2) DEFAULT 0.00,
+  `total_unit_rate` decimal(10,2) DEFAULT 0.00,
+  `total_amount` decimal(10,2) DEFAULT 0.00,
+  `bcoh` decimal(10,2) DEFAULT 0.00,
+  `expenses` decimal(10,2) DEFAULT 0.00,
+  `salary` decimal(10,2) DEFAULT 0.00,
+  `rem` decimal(10,2) DEFAULT 0.00,
+  `ecoh` decimal(10,2) DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `monthly_report`
+--
+
+INSERT INTO `monthly_report` (`id`, `month`, `total_bookings`, `total_pax`, `total_kids`, `total_adults`, `total_senior_pwd`, `total_entrance`, `total_unit_rate`, `total_amount`, `bcoh`, `expenses`, `salary`, `rem`, `ecoh`) VALUES
+(1, '2025-03', 10, 25, 3, 12, 5, 1500.00, 6000.00, 8000.00, 500.00, 2000.00, 2500.00, 4500.00, 5000.00),
+(2, '2025-04', 12, 30, 4, 14, 6, 1800.00, 7200.00, 9000.00, 1000.00, 0.00, 3000.00, 15100.00, 16100.00);
+
 --
 -- Indexes for dumped tables
 --
@@ -104,6 +136,12 @@ ALTER TABLE `bookings`
   ADD UNIQUE KEY `booking_number` (`booking_number`);
 
 --
+-- Indexes for table `monthly_report`
+--
+ALTER TABLE `monthly_report`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -118,6 +156,12 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `bookings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+
+--
+-- AUTO_INCREMENT for table `monthly_report`
+--
+ALTER TABLE `monthly_report`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
