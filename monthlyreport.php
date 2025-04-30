@@ -15,6 +15,55 @@ $totalRowsQuery = "SELECT COUNT(DISTINCT DATE_FORMAT(date_of_reservation, '%Y-%m
 $totalRowsResult = $conn->query($totalRowsQuery);
 $totalRows = $totalRowsResult->fetch_assoc()['total'];
 $totalPages = ceil($totalRows / $limit);
+
+// Handle form submission for updating monthly report
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $month = $_POST['month'];
+    $bcoh = $_POST['bcoh'];
+    $expenses = $_POST['expenses'];
+    $salary = $_POST['salary'];
+    $rem = $_POST['rem'];
+    $ecoh = $_POST['ecoh'];
+
+    // Update the monthly report in the database
+    $updateQuery = "
+        UPDATE monthly_report SET 
+            bcoh = ?, 
+            expenses = ?, 
+            salary = ?, 
+            rem = ?, 
+            ecoh = ?
+        WHERE month = ?";
+
+    $stmt = $conn->prepare($updateQuery);
+    $stmt->bind_param('ddddds', $bcoh, $expenses, $salary, $rem, $ecoh, $month);
+
+    if ($stmt->execute()) {
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Report updated successfully!',
+                    confirmButtonColor: '#3085d6'
+                });
+            });
+        </script>";
+    } else {
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Failed to update report. Please try again.',
+                    confirmButtonColor: '#d33'
+                });
+            });
+        </script>";
+    }
+    
+    
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +73,7 @@ $totalPages = ceil($totalRows / $limit);
     <meta charset="UTF-8">
     <title>Monthly Report</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 CDN -->
 </head>
 
 <body class="bg-light">
@@ -46,6 +96,12 @@ $totalPages = ceil($totalRows / $limit);
                             <th scope="col">Entrance Fee (₱)</th>
                             <th scope="col">Unit Rate (₱)</th>
                             <th scope="col">Total Amount (₱)</th>
+                            <th scope="col">BCOH (₱)</th>
+                            <th scope="col">Expenses (₱)</th>
+                            <th scope="col">Salary (₱)</th>
+                            <th scope="col">REM (₱)</th>
+                            <th scope="col">ECOH (₱)</th>
+                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,17 +125,31 @@ $totalPages = ceil($totalRows / $limit);
                             $summaryResult = $conn->query($summaryQuery);
                             $summary = $summaryResult->fetch_assoc();
                         ?>
-                        <tr>
-                            <td><?= $formattedDate ?></td>
-                            <td><?= $summary['total_bookings'] ?></td>
-                            <td><?= $summary['total_pax'] ?></td>
-                            <td><?= $summary['total_kids'] ?></td>
-                            <td><?= $summary['total_adults'] ?></td>
-                            <td><?= $summary['total_senior_pwd'] ?></td>
-                            <td>₱<?= number_format($summary['total_entrance'], 2) ?></td>
-                            <td>₱<?= number_format($summary['total_unit_rate'], 2) ?></td>
-                            <td><strong>₱<?= number_format($summary['total_amount'], 2) ?></strong></td>
-                        </tr>
+                        <form method="POST" action="monthlyreport.php">
+                            <tr>
+                                <td><?= $formattedDate ?></td>
+                                <td><?= $summary['total_bookings'] ?></td>
+                                <td><?= $summary['total_pax'] ?></td>
+                                <td><?= $summary['total_kids'] ?></td>
+                                <td><?= $summary['total_adults'] ?></td>
+                                <td><?= $summary['total_senior_pwd'] ?></td>
+                                <td>₱<?= number_format($summary['total_entrance'], 2) ?></td>
+                                <td>₱<?= number_format($summary['total_unit_rate'], 2) ?></td>
+                                <td>
+                                    <strong>₱<span class="total-amount"><?= number_format($summary['total_amount'], 2) ?></span></strong>
+                                    <input type="hidden" class="totalAmountRaw" value="<?= $summary['total_amount'] ?>">
+                                </td>
+                                <td><input type="number" class="form-control form-control-sm bcoh" name="bcoh" step="0.01" value="0.00"></td>
+                                <td><input type="number" class="form-control form-control-sm expenses" name="expenses" step="0.01" value="0.00"></td>
+                                <td><input type="number" class="form-control form-control-sm salary" name="salary" step="0.01" value="0.00"></td>
+                                <td><input type="text" class="form-control form-control-sm rem" name="rem" readonly></td>
+                                <td><input type="text" class="form-control form-control-sm ecoh" name="ecoh" readonly></td>
+                                <td>
+                                    <input type="hidden" name="month" value="<?= $currentMonth ?>">
+                                    <button type="submit" class="btn btn-success btn-sm">Save</button>
+                                </td>
+                            </tr>
+                        </form>
                         <?php endwhile; ?>
                     </tbody>
                 </table>
@@ -98,6 +168,36 @@ $totalPages = ceil($totalRows / $limit);
             </div>
         </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('tr').forEach(row => {
+            const totalAmount = parseFloat(row.querySelector('.totalAmountRaw')?.value || 0);
+            const bcohInput = row.querySelector('.bcoh');
+            const expensesInput = row.querySelector('.expenses');
+            const salaryInput = row.querySelector('.salary');
+            const remInput = row.querySelector('.rem');
+            const ecohInput = row.querySelector('.ecoh');
+
+            if (bcohInput && expensesInput && salaryInput) {
+                [bcohInput, expensesInput, salaryInput].forEach(input => {
+                    input.addEventListener('input', () => {
+                        const bcoh = parseFloat(bcohInput.value) || 0;
+                        const expenses = parseFloat(expensesInput.value) || 0;
+                        const salary = parseFloat(salaryInput.value) || 0;
+                        const rem = totalAmount - expenses - salary;
+                        const ecoh = bcoh + rem;
+
+                        remInput.value = rem.toFixed(2);
+                        ecohInput.value = ecoh.toFixed(2);
+                    });
+                });
+            }
+        });
+    });
+    
+    </script>
+    
 
 </body>
 
