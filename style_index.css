@@ -201,3 +201,24 @@ footer a {
     color: #28a745;
     font-weight: bold;
   }
+  .star {
+    font-size: 30px;
+    color: #ddd;
+    cursor: pointer;
+  }
+  .star.checked {
+    color: gold;
+  }
+  .feedback{
+    background-color: #f8f9fa;
+  }
+  footer hr {
+    border-top: 1px solid #ffffff; /* White line */
+    width: 100%;  /* Full-width */
+    margin: 20px 0; /* Add spacing around the divider */
+}
+
+footer .col-md-4 i {
+    color: #ffffff;
+    margin-right: 10px;
+}
