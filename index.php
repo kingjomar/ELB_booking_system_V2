@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style_index.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -27,8 +28,8 @@
                 <ul class="navbar-nav me-3">
                     <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Offers</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="offer.php">Offers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.php">Gallery</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
                 </ul>
@@ -48,7 +49,7 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="images/image1.jpg" class="carousel-img d-block w-100" alt="Banner 1">
+                <img src="images/bg1.jfif" class="carousel-img d-block w-100" alt="Banner 1">
                 <div class="carousel-caption d-none d-md-block">
                     <h1 class="title-name">EL BERNARDINO RESORT</h1>
                     <p class="title-caption">"A PLACE TO PAUSE, A MOMENT TO REMEMBER"</p>

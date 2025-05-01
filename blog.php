@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style_about.css">
+    <link rel="stylesheet" href="style_blog.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -25,11 +25,11 @@
             <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarNav">
                 <ul class="navbar-nav me-3">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="#">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.php">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="offer.php">Offers</a></li>
                     <li class="nav-item"><a class="nav-link" href="gallery.php">Gallery</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
                 </ul>
                 <a href="inquiry_form.php" class="btn custom-btn shadow-sm px-4 py-2">Book Now</a>
             </div>
@@ -38,74 +38,18 @@
     </nav>
     <div class="container-title d-flex justify-content-center align-items-center">
         <div class="overlay w-100 h-100 d-flex justify-content-center align-items-center">
-            <h1 class="text-white display-4 fw-bold">About Us</h1>
+            <h1 class="text-white display-4 fw-bold">Blogs</h1>
         </div>
     </div>
 
-    <div class="second-container d-flex flex-wrap justify-content-between align-items-center p-5 bg-light">
-        <!-- Text Section -->
-        <div class="col-lg-6 mb-4">
-            <div class="mx-auto" style="max-width: 90%;">
-                <h1 class="text-center fw-bold mb-4">EL Bernardino Resort</h1>
-                <p class="text-center text-muted">
-                    El Bernardino Resort welcomes you to a fresh beautiful place where modern and traditional Filipino
-                    styles seamlessly blend.
-                    Nestled in a serene setting, this resort boasts homes with a modern sleek look, offering a perfect
-                    mix of comfort and elegance.
-                    The calm and peaceful ambiance is enhanced by earth tone accents, creating an inviting atmosphere
-                    that immediately makes you feel at ease.
-                    Picture yourself lounging by the sparkling swimming pool, which is perfect for both kids and adults,
-                    surrounded by lush greenery that exudes nature vibes.
-                    Imagine spending your days here, enjoying the serene environment and the thoughtfully designed
-                    spaces that reflect the beauty of Filipino craftsmanship.
-                </p>
-            </div>
-        </div>
+    <div class="container">
+        <h4 class="section-title">Our Blog</h4>
 
-        <!-- Image Section -->
-        <div class="col-lg-6 d-flex justify-content-center gap-3">
-            <img src="images/image6.jfif" alt="Resort View 1" class="img-fluid rounded shadow"
-                style="width: 48%; height: auto; object-fit: cover;">
-            <img src="images/image7.jfif" alt="Resort View 2" class="img-fluid rounded shadow"
-                style="width: 48%; height: auto; object-fit: cover;">
-        </div>
-    </div>
+        <div id="blogGallery" class="row row-cols-1 row-cols-md-3 g-4"></div>
 
-    <div class="container-bg">
-
-    </div>
-
-    <div class="container-third py-5 px-4">
-        <div class="row g-5">
-            <div class="col-md-6">
-                <div class="p-4 bg-white rounded shadow-lg h-100">
-                    <h3 class="fw-bold mb-3">Modern Comfort</h3>
-                    <p class="text-muted mb-0">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nulla vero beatae modi?
-                        Unde quibusdam optio illo praesentium atque vero harum recusandae repellendus fugit?
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="p-4 bg-white rounded shadow-lg h-100">
-                    <h3 class="fw-bold mb-3">Natural Tranquility</h3>
-                    <p class="text-muted mb-0">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nulla vero beatae modi?
-                        Unde quibusdam optio illo praesentium atque vero harum recusandae repellendus fugit?
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="images d-flex flex-wrap">
-        <img src="images/image1.jpg" alt="Image 1" class="img-thumb">
-        <img src="images/background.jpg" alt="Image 2" class="img-thumb">
-        <img src="images/background2.jfif" alt="Image 3" class="img-thumb">
-        <img src="images/background2.jpg" alt="Image 4" class="img-thumb">
-        <img src="images/image2.jfif" alt="Image 5" class="img-thumb">
-        <img src="images/image5.jfif" alt="Image 6" class="img-thumb">
-        <img src="images/image3.jfif" alt="Image 7" class="img-thumb">
+        <nav>
+            <ul class="pagination" id="pagination"></ul>
+        </nav>
     </div>
 
     <!-- Footer -->
@@ -169,7 +113,130 @@
         </div>
     </footer>
 
+    <script>
+    const blogData = [{
+            img: 'images/image1.jpg',
+            title: 'Lush Green Villa',
+            date: 'April 1, 2025',
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            link: '#'
+        },
+        {
+            img: 'images/image1.jpg',
+            title: 'Tropical Escape',
+            date: 'April 2, 2025',
+            text: 'Suspendisse vitae nisi et lorem feugiat.',
+            link: '#'
+        },
+        {
+            img: 'images/image1.jpg',
+            title: 'Playground Fun',
+            date: 'April 3, 2025',
+            text: 'Aliquam erat volutpat. Curabitur feugiat.',
+            link: '#'
+        },
+        {
+            img: 'images/image1.jpg',
+            title: 'Hidden Paradise',
+            date: 'April 4, 2025',
+            text: 'Nunc laoreet mi nec ipsum tincidunt.',
+            link: '#'
+        },
+        {
+            img: 'images/image1.jpg',
+            title: 'Resort Bliss',
+            date: 'April 5, 2025',
+            text: 'Quisque luctus turpis ut augue tincidunt.',
+            link: '#'
+        },
+        {
+            img: 'images/image1.jpg',
+            title: 'Tranquil Retreat',
+            date: 'April 6, 2025',
+            text: 'Etiam vitae ante nec velit lacinia.',
+            link: '#'
+        },
+        {
+            img: 'images/image1.jpg',
+            title: 'Nature Walk',
+            date: 'April 7, 2025',
+            text: 'Cras non orci sed nulla finibus.',
+            link: '#'
+        },
+        {
+            img: 'images/image1.jpg',
+            title: 'Sunny Resort',
+            date: 'April 8, 2025',
+            text: 'Vestibulum bibendum feugiat libero.',
+            link: '#'
+        },
+        {
+            img: 'images/image1.jpg',
+            title: 'Tropical Getaway',
+            date: 'April 9, 2025',
+            text: 'Morbi nec leo nec nulla feugiat.',
+            link: '#'
+        },
+    ];
 
+    const itemsPerPage = 6;
+    let currentPage = 1;
+
+    function renderBlogGallery(page) {
+        const gallery = document.getElementById('blogGallery');
+        gallery.innerHTML = '';
+
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageItems = blogData.slice(start, end);
+
+        pageItems.forEach(item => {
+            gallery.innerHTML += `
+          <div class="col">
+            <div class="card h-100">
+              <img src="${item.img}" class="card-img-top" alt="${item.title}">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">${item.title}</h5>
+                <small class="text-muted">${item.date}</small>
+                <p class="card-text mt-2">${item.text}</p>
+                <a href="${item.link}" class="btn btn-read mt-auto">Read More</a>
+              </div>
+            </div>
+          </div>
+        `;
+        });
+
+        // Scroll to top of gallery
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+    function renderPagination() {
+        const totalPages = Math.ceil(blogData.length / itemsPerPage);
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+            pagination.innerHTML += `
+          <li class="page-item ${i === currentPage ? 'active' : ''}">
+            <button class="page-link" onclick="goToPage(${i})">${i}</button>
+          </li>
+        `;
+        }
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        renderBlogGallery(page);
+        renderPagination();
+    }
+
+    // Initial load
+    renderBlogGallery(currentPage);
+    renderPagination();
+    </script>
 </body>
 
 </html>

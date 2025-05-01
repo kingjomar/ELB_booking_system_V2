@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style_about.css">
+    <link rel="stylesheet" href="style_contact.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -25,11 +26,11 @@
             <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarNav">
                 <ul class="navbar-nav me-3">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="#">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.php">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="offer.php">Offers</a></li>
                     <li class="nav-item"><a class="nav-link" href="gallery.php">Gallery</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.php">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Contact</a></li>
                 </ul>
                 <a href="inquiry_form.php" class="btn custom-btn shadow-sm px-4 py-2">Book Now</a>
             </div>
@@ -38,74 +39,52 @@
     </nav>
     <div class="container-title d-flex justify-content-center align-items-center">
         <div class="overlay w-100 h-100 d-flex justify-content-center align-items-center">
-            <h1 class="text-white display-4 fw-bold">About Us</h1>
+            <h1 class="text-white display-4 fw-bold">Contact</h1>
         </div>
     </div>
-
-    <div class="second-container d-flex flex-wrap justify-content-between align-items-center p-5 bg-light">
-        <!-- Text Section -->
-        <div class="col-lg-6 mb-4">
-            <div class="mx-auto" style="max-width: 90%;">
-                <h1 class="text-center fw-bold mb-4">EL Bernardino Resort</h1>
-                <p class="text-center text-muted">
-                    El Bernardino Resort welcomes you to a fresh beautiful place where modern and traditional Filipino
-                    styles seamlessly blend.
-                    Nestled in a serene setting, this resort boasts homes with a modern sleek look, offering a perfect
-                    mix of comfort and elegance.
-                    The calm and peaceful ambiance is enhanced by earth tone accents, creating an inviting atmosphere
-                    that immediately makes you feel at ease.
-                    Picture yourself lounging by the sparkling swimming pool, which is perfect for both kids and adults,
-                    surrounded by lush greenery that exudes nature vibes.
-                    Imagine spending your days here, enjoying the serene environment and the thoughtfully designed
-                    spaces that reflect the beauty of Filipino craftsmanship.
-                </p>
-            </div>
-        </div>
-
-        <!-- Image Section -->
-        <div class="col-lg-6 d-flex justify-content-center gap-3">
-            <img src="images/image6.jfif" alt="Resort View 1" class="img-fluid rounded shadow"
-                style="width: 48%; height: auto; object-fit: cover;">
-            <img src="images/image7.jfif" alt="Resort View 2" class="img-fluid rounded shadow"
-                style="width: 48%; height: auto; object-fit: cover;">
-        </div>
+    <h3 class="text-title ">El Bernardino Resort Map</h3>
+    <div class="map">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3853.6905296132504!2d120.70287107446254!3d15.009874666926814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3396f77bfd55f1d3%3A0x2a3032cda796cd8f!2sEL%20Bernardino%20Resort!5e0!3m2!1sen!2sph!4v1745989945461!5m2!1sen!2sph"
+            width="1000" height="600" style="border:0; margin-top:20px;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade" class=""></iframe>
     </div>
 
-    <div class="container-bg">
+    <div class="container">
+        <div class="contact-container">
+            <h4 class="contact-title">Contact Information</h4>
+            <div class="row">
+                <!-- Contact Form -->
+                <div class="col-md-8">
+                    <form>
+                        <div class="mb-3">
+                            <textarea class="form-control" rows="5" placeholder="Your Message..." required></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Enter your name" required />
+                            </div>
+                            <div class="col">
+                                <input type="email" class="form-control" placeholder="Email" required />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Enter Subject" required />
+                        </div>
+                        <div class="d-flex justify-content-center"><button type="submit"
+                                class="submit-btn">Submit</button></div>
 
-    </div>
-
-    <div class="container-third py-5 px-4">
-        <div class="row g-5">
-            <div class="col-md-6">
-                <div class="p-4 bg-white rounded shadow-lg h-100">
-                    <h3 class="fw-bold mb-3">Modern Comfort</h3>
-                    <p class="text-muted mb-0">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nulla vero beatae modi?
-                        Unde quibusdam optio illo praesentium atque vero harum recusandae repellendus fugit?
-                    </p>
+                    </form>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="p-4 bg-white rounded shadow-lg h-100">
-                    <h3 class="fw-bold mb-3">Natural Tranquility</h3>
-                    <p class="text-muted mb-0">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nulla vero beatae modi?
-                        Unde quibusdam optio illo praesentium atque vero harum recusandae repellendus fugit?
-                    </p>
+
+                <!-- Contact Info -->
+                <div class="col-md-4 contact-info">
+                    <p><i class="fas fa-map-marker-alt"></i>San Pedro Road Brgy. San Matias, Sto. Tomas, Pampanga</p>
+                    <p><i class="fas fa-phone"></i>0996-811-1116</p>
+                    <p><i class="fas fa-envelope"></i>theresort.inquiry@gmail.com</p>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="images d-flex flex-wrap">
-        <img src="images/image1.jpg" alt="Image 1" class="img-thumb">
-        <img src="images/background.jpg" alt="Image 2" class="img-thumb">
-        <img src="images/background2.jfif" alt="Image 3" class="img-thumb">
-        <img src="images/background2.jpg" alt="Image 4" class="img-thumb">
-        <img src="images/image2.jfif" alt="Image 5" class="img-thumb">
-        <img src="images/image5.jfif" alt="Image 6" class="img-thumb">
-        <img src="images/image3.jfif" alt="Image 7" class="img-thumb">
     </div>
 
     <!-- Footer -->
@@ -168,8 +147,6 @@
             </div>
         </div>
     </footer>
-
-
 </body>
 
 </html>
