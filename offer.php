@@ -1,3 +1,21 @@
+<?php
+$host = "localhost";
+$username = "root";  // default for XAMPP
+$password = "";      // default for XAMPP
+$database = "el_bernardino_resort";
+
+// Connect to the database
+$conn = new mysqli($host, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Get offer data
+$sql = "SELECT * FROM offers";
+$result = $conn->query($sql);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +28,46 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style_offer.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .offer-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 300px;
+            margin: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .offer-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .offer-card-content {
+            padding: 15px;
+        }
+
+        .offer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .book-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .book-button:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 
 <body>
@@ -41,107 +99,21 @@
             <h1 class="text-white display-4 fw-bold">Offers</h1>
         </div>
     </div>
-
-    <div class="mt-4 mb-5">
-        <div class="container">
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                <!-- Card 1 -->
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="images/background.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title...</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+    <div class="container py-5">
+        <h2 class="text-center mb-4">Our Latest Offers</h2>
+        <div class="row justify-content-center">
+            <?php while ($row = $result->fetch_assoc()): ?>
+                <div class="col-md-4 col-sm-6 mb-4 d-flex justify-content-center">
+                    <div class="offer-card">
+                        <img src="<?php echo $row['image_url']; ?>" alt="Offer Image">
+                        <div class="offer-card-content">
+                            <h3><?php echo htmlspecialchars($row['title']); ?></h3>
+                            <p><?php echo htmlspecialchars($row['description']); ?></p>
+                            <a href="inquiry_form.php" class="book-button">Book Now</a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Duplicate the following col block 8 more times to make 9 cards total -->
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="images/background.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title...</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="images/background.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title...</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="images/background.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title...</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="images/background.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title...</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="images/background.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title...</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="images/background.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title...</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="images/background.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title...</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="images/background.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title...</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Repeat until you have 9 .col blocks -->
-                <!-- ... -->
-            </div>
+            <?php endwhile; ?>
         </div>
     </div>
 
@@ -208,3 +180,4 @@
 </body>
 
 </html>
+<?php $conn->close(); ?>

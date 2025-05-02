@@ -1,3 +1,11 @@
+<?php
+// Include database connection
+include('db_connect.php');
+
+// Fetch all images from the gallery table
+$result = $conn->query("SELECT * FROM gallery");
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,6 +17,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .card {
+            height: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-img-top {
+            height: 320px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .card-wrapper {
+            margin-bottom: 30px;
+            display: flex;
+            height: 100%;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -40,88 +83,47 @@
             <h1 class="text-white display-4 fw-bold">Gallery</h1>
         </div>
     </div>
-    <div class="container my-5 pt-5">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4" id="gallery">
-            <!-- Image 1 -->
-            <div class="col">
-                <div class="text-center">
-                    <img src="images/image1.jpg" class="img-fluid rounded shadow" alt="Image 1">
-                    <p class="mt-2">Image 1 Title</p>
+    <div class="container mt-5">
+        <div class="row">
+            <?php while ($row = $result->fetch_assoc()) { ?>
+                <div class="col-md-4 d-flex align-items-stretch">
+                    <div class="card-wrapper w-100">
+                        <div class="card w-100">
+                            <img src="<?php echo $row['image_path']; ?>" class="card-img-top" alt="Image">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo htmlspecialchars($row['title']); ?></h5>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <!-- Repeat for images 2 to 9 -->
-            <div class="col">
-                <div class="text-center">
-                    <img src="images/image1.jpg" class="img-fluid rounded shadow" alt="Image 2">
-                    <p class="mt-2">Image 2 Title</p>
-                </div>
-            </div>
-            <!-- ... more images ... -->
-            <div class="col">
-                <div class="text-center">
-                    <img src="images/image1.jpg" class="img-fluid rounded shadow" alt="Image 9">
-                    <p class="mt-2">Image 9 Title</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="text-center">
-                    <img src="images/image1.jpg" class="img-fluid rounded shadow" alt="Image 9">
-                    <p class="mt-2">Image 9 Title</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="text-center">
-                    <img src="images/image1.jpg" class="img-fluid rounded shadow" alt="Image 9">
-                    <p class="mt-2">Image 9 Title</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="text-center">
-                    <img src="images/image1.jpg" class="img-fluid rounded shadow" alt="Image 9">
-                    <p class="mt-2">Image 9 Title</p>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="text-center">
-                    <img src="images/image1.jpg" class="img-fluid rounded shadow" alt="Image 9">
-                    <p class="mt-2">Image 9 Title</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="text-center">
-                    <img src="images/image1.jpg" class="img-fluid rounded shadow" alt="Image 9">
-                    <p class="mt-2">Image 9 Title</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="text-center">
-                    <img src="images/image1.jpg" class="img-fluid rounded shadow" alt="Image 9">
-                    <p class="mt-2">Image 9 Title</p>
-                </div>
-            </div>
+            <?php } ?>
         </div>
+    </div>
 
-        <!-- Pagination -->
-        <nav class="mt-4 d-flex justify-content-center">
-            <ul class="pagination">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">Previous</a>
-                </li>
-                <li class="page-item active">
-                    <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
+    <?php
+    $conn->close();
+    ?>
+
+    <!-- Pagination -->
+    <nav class="mt-4 d-flex justify-content-center">
+        <ul class="pagination">
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Previous</a>
+            </li>
+            <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
     </div>
 
     <!-- Footer -->
@@ -185,139 +187,139 @@
         </div>
     </footer>
     <script>
-    const images = [{
-            src: 'images/image1.jpg',
-            title: 'Image 1 Title'
-        },
-        {
-            src: 'images/image1.jpg',
-            title: 'Image 2 Title'
-        },
-        {
-            src: 'images/image1.jpg',
-            title: 'Image 3 Title'
-        },
-        {
-            src: 'images/image1.jpg',
-            title: 'Image 4 Title'
-        },
-        {
-            src: 'images/image1.jpg',
-            title: 'Image 5 Title'
-        },
-        {
-            src: 'images/image1.jpg',
-            title: 'Image 6 Title'
-        },
-        {
-            src: 'images/image1.jpg',
-            title: 'Image 7 Title'
-        },
-        {
-            src: 'images/image1.jpg',
-            title: 'Image 8 Title'
-        },
-        {
-            src: 'images/image1.jpg',
-            title: 'Image 9 Title'
-        },
-        {
-            src: 'images/image1.jpg',
-            title: 'Image 10 Title'
-        },
-        {
-            src: 'images/image1.jpg',
-            title: 'Image 11 Title'
-        },
-        {
-            src: 'images/image1.jpg',
-            title: 'Image 12 Title'
-        }
-    ];
+        const images = [{
+                src: 'images/image1.jpg',
+                title: 'Image 1 Title'
+            },
+            {
+                src: 'images/image1.jpg',
+                title: 'Image 2 Title'
+            },
+            {
+                src: 'images/image1.jpg',
+                title: 'Image 3 Title'
+            },
+            {
+                src: 'images/image1.jpg',
+                title: 'Image 4 Title'
+            },
+            {
+                src: 'images/image1.jpg',
+                title: 'Image 5 Title'
+            },
+            {
+                src: 'images/image1.jpg',
+                title: 'Image 6 Title'
+            },
+            {
+                src: 'images/image1.jpg',
+                title: 'Image 7 Title'
+            },
+            {
+                src: 'images/image1.jpg',
+                title: 'Image 8 Title'
+            },
+            {
+                src: 'images/image1.jpg',
+                title: 'Image 9 Title'
+            },
+            {
+                src: 'images/image1.jpg',
+                title: 'Image 10 Title'
+            },
+            {
+                src: 'images/image1.jpg',
+                title: 'Image 11 Title'
+            },
+            {
+                src: 'images/image1.jpg',
+                title: 'Image 12 Title'
+            }
+        ];
 
-    const itemsPerPage = 6;
-    let currentPage = 1;
+        const itemsPerPage = 6;
+        let currentPage = 1;
 
-    function renderGallery(page) {
-        const gallery = document.getElementById('gallery');
-        gallery.innerHTML = '';
+        function renderGallery(page) {
+            const gallery = document.getElementById('gallery');
+            gallery.innerHTML = '';
 
-        const start = (page - 1) * itemsPerPage;
-        const end = start + itemsPerPage;
-        const pageItems = images.slice(start, end);
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageItems = images.slice(start, end);
 
-        pageItems.forEach(image => {
-            const col = document.createElement('div');
-            col.className = 'col';
-            col.innerHTML = `
+            pageItems.forEach(image => {
+                const col = document.createElement('div');
+                col.className = 'col';
+                col.innerHTML = `
         <div class="text-center">
           <img src="${image.src}" class="img-fluid rounded shadow" alt="${image.title}">
           <p class="mt-2">${image.title}</p>
         </div>
       `;
-            gallery.appendChild(col);
-        });
-    }
-
-    function renderPagination() {
-        const totalPages = Math.ceil(images.length / itemsPerPage);
-        const pagination = document.querySelector('.pagination');
-        pagination.innerHTML = '';
-
-        const prev = document.createElement('li');
-        prev.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
-        prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
-        prev.addEventListener('click', e => {
-            e.preventDefault();
-            if (currentPage > 1) {
-                currentPage--;
-                renderGallery(currentPage);
-                renderPagination();
-                scrollToGallery();
-            }
-        });
-        pagination.appendChild(prev);
-
-        for (let i = 1; i <= totalPages; i++) {
-            const li = document.createElement('li');
-            li.className = `page-item ${i === currentPage ? 'active' : ''}`;
-            li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-            li.addEventListener('click', e => {
-                e.preventDefault();
-                currentPage = i;
-                renderGallery(currentPage);
-                renderPagination();
-                scrollToGallery();
+                gallery.appendChild(col);
             });
-            pagination.appendChild(li);
         }
 
-        const next = document.createElement('li');
-        next.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
-        next.innerHTML = `<a class="page-link" href="#">Next</a>`;
-        next.addEventListener('click', e => {
-            e.preventDefault();
-            if (currentPage < totalPages) {
-                currentPage++;
-                renderGallery(currentPage);
-                renderPagination();
-                scrollToGallery();
+        function renderPagination() {
+            const totalPages = Math.ceil(images.length / itemsPerPage);
+            const pagination = document.querySelector('.pagination');
+            pagination.innerHTML = '';
+
+            const prev = document.createElement('li');
+            prev.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+            prev.addEventListener('click', e => {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderGallery(currentPage);
+                    renderPagination();
+                    scrollToGallery();
+                }
+            });
+            pagination.appendChild(prev);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                li.addEventListener('click', e => {
+                    e.preventDefault();
+                    currentPage = i;
+                    renderGallery(currentPage);
+                    renderPagination();
+                    scrollToGallery();
+                });
+                pagination.appendChild(li);
             }
-        });
-        pagination.appendChild(next);
-    }
 
-    function scrollToGallery() {
-        const galleryTop = document.getElementById('gallery').offsetTop;
-        window.scrollTo({
-            top: galleryTop - 100,
-            behavior: 'smooth'
-        });
-    }
+            const next = document.createElement('li');
+            next.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+            next.innerHTML = `<a class="page-link" href="#">Next</a>`;
+            next.addEventListener('click', e => {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderGallery(currentPage);
+                    renderPagination();
+                    scrollToGallery();
+                }
+            });
+            pagination.appendChild(next);
+        }
 
-    // Initialize
-    renderGallery(currentPage);
-    renderPagination();
+        function scrollToGallery() {
+            const galleryTop = document.getElementById('gallery').offsetTop;
+            window.scrollTo({
+                top: galleryTop - 100,
+                behavior: 'smooth'
+            });
+        }
+
+        // Initialize
+        renderGallery(currentPage);
+        renderPagination();
     </script>
 
 </body>

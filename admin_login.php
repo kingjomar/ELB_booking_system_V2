@@ -59,21 +59,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Admin Login</title>
     <link rel="stylesheet" href="style_login.css">
     <script>
-        // Toggle password visibility
-        function togglePassword() {
-            const passwordField = document.getElementById("password");
-            const toggleIcon = document.getElementById("eye-icon");
-            let openEyes = "./images/ic_opened_eye.png";
-            let closeEyes = "./images/ic_closed_eye.png";
+    // Toggle password visibility
+    function togglePassword() {
+        const passwordField = document.getElementById("password");
+        const toggleIcon = document.getElementById("eye-icon");
+        let openEyes = "./images/ic_opened_eye.png";
+        let closeEyes = "./images/ic_closed_eye.png";
 
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-                toggleIcon.src = openEyes; // Open eye image
-            } else {
-                passwordField.type = "password";
-                toggleIcon.src = closeEyes; // Closed eye image
-            }
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleIcon.src = openEyes; // Open eye image
+        } else {
+            passwordField.type = "password";
+            toggleIcon.src = closeEyes; // Closed eye image
         }
+    }
     </script>
 </head>
 
