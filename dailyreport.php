@@ -285,7 +285,7 @@ $detailsResult = $conn->query($detailsQuery);
         </div>
         <div class="excel d-flex justify-content-end">
         <form id="monthly" action ="monthlyreport.php" method="post" >
-        <button type="button" id="monthlyreport" class="btn btn-outline-success mb-3">Monthly Report</button>
+        <button type="button" id="monthlyreport" class="btn btn-info">Monthly Report</button>
         </div>
         
     </div>

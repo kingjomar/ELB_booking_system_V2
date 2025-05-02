@@ -152,7 +152,13 @@ if (isset($_GET['logout'])) {
             </div>
         </div>
 
-        <h3>Bookings</h3>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Bookings</h3>
+    <div>
+        <a href="dailyreport.php" class="btn btn-info me-2">Daily Report</a>
+        <a href="monthlyreport.php" class="btn btn-info">Monthly Report</a>
+    </div>
+</div>
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
                 <tr>

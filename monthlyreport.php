@@ -1,5 +1,6 @@
 <?php
 include('db_connect.php');
+include('auth.php');
 
 // Handle pagination
 $limit = 10;
@@ -18,12 +19,13 @@ $totalPages = ceil($totalRows / $limit);
 
 // Handle form submission for updating monthly report
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $month = $_POST['month'];
-    $bcoh = $_POST['bcoh'];
-    $expenses = $_POST['expenses'];
-    $salary = $_POST['salary'];
-    $rem = $_POST['rem'];
-    $ecoh = $_POST['ecoh'];
+    // Safe initialization of POST variables to prevent undefined index errors
+    $month = isset($_POST['month']) ? $_POST['month'] : '';
+    $bcoh = isset($_POST['bcoh']) ? $_POST['bcoh'] : 0;
+    $expenses = isset($_POST['expenses']) ? $_POST['expenses'] : 0;
+    $salary = isset($_POST['salary']) ? $_POST['salary'] : 0;
+    $rem = isset($_POST['rem']) ? $_POST['rem'] : 0;
+    $ecoh = isset($_POST['ecoh']) ? $_POST['ecoh'] : 0;
 
     // Update the monthly report in the database
     $updateQuery = "
@@ -32,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             expenses = ?, 
             salary = ?, 
             rem = ?, 
-            ecoh = ?
+            ecoh = ? 
         WHERE month = ?";
 
     $stmt = $conn->prepare($updateQuery);
@@ -61,8 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             });
         </script>";
     }
-    
-    
 }
 ?>
 
@@ -83,8 +83,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="card-header bg-primary text-white">
                 <h5 class="mb-0 text-center fs-3">Monthly Report</h5>
             </div>
-            <div class="card-body table-responsive">
-                <a href="export_monthly_report.php" class="btn btn-outline-success mb-3">Download Excel</a>
+           
+            <div class="card-body table-responsive">  
+                <form id="daily" action="dailyreport.php">
+                <a id="dailyreport" href="#" class="btn btn-info ">Daily Report</a>
+                <a href="export_monthly_report.php" class="btn btn-outline-success ">Download Excel</a>
+                </form>       
+               
+              
 
                 <table class="table table-hover table-bordered text-center align-middle">
                     <thead class="table-primary">
@@ -112,17 +118,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             $formattedDate = date('l, F j, Y', strtotime($currentMonth . '-01'));
 
                             $summaryQuery = "
-            SELECT 
-              COUNT(*) AS total_bookings,
-              SUM(3yrs_old_below) AS total_kids,
-              SUM(adults) AS total_adults,
-              SUM(kids_seniors_pwds) AS total_senior_pwd,
-              SUM(3yrs_old_below + adults + kids_seniors_pwds) AS total_pax,
-              SUM(entrance_fee) AS total_entrance,
-              SUM(cottage_room_fee) AS total_unit_rate,
-              SUM(total_amount) AS total_amount
-            FROM bookings
-            WHERE DATE_FORMAT(date_of_reservation, '%Y-%m') = '$currentMonth'";
+                                SELECT 
+                                    COUNT(*) AS total_bookings,
+                                    SUM(3yrs_old_below) AS total_kids,
+                                    SUM(adults) AS total_adults,
+                                    SUM(kids_seniors_pwds) AS total_senior_pwd,
+                                    SUM(3yrs_old_below + adults + kids_seniors_pwds) AS total_pax,
+                                    SUM(entrance_fee) AS total_entrance,
+                                    SUM(cottage_room_fee) AS total_unit_rate,
+                                    SUM(total_amount) AS total_amount
+                                FROM bookings
+                                WHERE DATE_FORMAT(date_of_reservation, '%Y-%m') = '$currentMonth'";
 
                             $summaryResult = $conn->query($summaryQuery);
                             $summary = $summaryResult->fetch_assoc();
@@ -213,34 +219,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('tr').forEach(row => {
-            const totalAmount = parseFloat(row.querySelector('.totalAmountRaw')?.value || 0);
-            const bcohInput = row.querySelector('.bcoh');
-            const expensesInput = row.querySelector('.expenses');
-            const salaryInput = row.querySelector('.salary');
-            const remInput = row.querySelector('.rem');
-            const ecohInput = row.querySelector('.ecoh');
+        document.querySelectorAll('.bcoh, .expenses, .salary').forEach(input => {
+            input.addEventListener('input', function () {
+                const row = input.closest('tr');
+                const totalAmount = parseFloat(row.querySelector('.totalAmountRaw')?.value || 0);
+                const bcoh = parseFloat(row.querySelector('.bcoh').value || 0);
+                const expenses = parseFloat(row.querySelector('.expenses').value || 0);
+                const salary = parseFloat(row.querySelector('.salary').value || 0);
+                const rem = bcoh + expenses + salary;
+                const ecoh = totalAmount - rem;
 
-            if (bcohInput && expensesInput && salaryInput) {
-                [bcohInput, expensesInput, salaryInput].forEach(input => {
-                    input.addEventListener('input', () => {
-                        const bcoh = parseFloat(bcohInput.value) || 0;
-                        const expenses = parseFloat(expensesInput.value) || 0;
-                        const salary = parseFloat(salaryInput.value) || 0;
-                        const rem = totalAmount - expenses - salary;
-                        const ecoh = bcoh + rem;
-
-                        remInput.value = rem.toFixed(2);
-                        ecohInput.value = ecoh.toFixed(2);
-                    });
-                });
+                row.querySelector('.rem').value = rem.toFixed(2);
+                row.querySelector('.ecoh').value = ecoh.toFixed(2);
+            });
+        });
+    });
+    </script>
+    <script>
+    document.getElementById('dailyreport').addEventListener('click', function (e) {
+        Swal.fire({
+            title: 'Proceed to Daily Report?',
+            text: "Do you want to go Daily Report?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#aaa',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('daily').submit();
             }
         });
     });
-    
-    </script>
-    
+</script>
 
 </body>
-
 </html>
