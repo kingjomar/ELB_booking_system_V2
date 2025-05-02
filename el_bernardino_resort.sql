@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 30, 2025 at 10:50 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: May 02, 2025 at 08:07 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,7 +38,8 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `password`) VALUES
-(1, 'king', 'kingjomarcarlos');
+(1, 'king', 'kingjomarcarlos'),
+(2, 'admin', 'admin1234');
 
 -- --------------------------------------------------------
 
@@ -88,6 +89,29 @@ INSERT INTO `bookings` (`id`, `firstname`, `middlename`, `lastname`, `contact`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `gallery`
+--
+
+CREATE TABLE `gallery` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `image_path` varchar(255) NOT NULL,
+  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `gallery`
+--
+
+INSERT INTO `gallery` (`id`, `title`, `image_path`, `uploaded_at`) VALUES
+(1, 'Palma Private', 'uploads/Private Palma (2).png', '2025-05-01 03:47:12'),
+(2, 'Palma', 'uploads/476492562_651412694031521_3703005935214790070_n.jpg', '2025-05-01 03:48:03'),
+(3, 'Palma', 'uploads/476492562_651412694031521_3703005935214790070_n.jpg', '2025-05-01 03:50:02'),
+(4, 'Palma', 'uploads/476492562_651412694031521_3703005935214790070_n.jpg', '2025-05-01 03:50:09');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `monthly_report`
 --
 
@@ -116,6 +140,31 @@ CREATE TABLE `monthly_report` (
 INSERT INTO `monthly_report` (`id`, `month`, `total_bookings`, `total_pax`, `total_kids`, `total_adults`, `total_senior_pwd`, `total_entrance`, `total_unit_rate`, `total_amount`, `bcoh`, `expenses`, `salary`, `rem`, `ecoh`) VALUES
 (22, '2025-04', 4, 50, 4, 46, 0, 9000.00, 9100.00, 18100.00, 1000.00, 0.00, 0.00, 18100.00, 19100.00);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `offers`
+--
+
+CREATE TABLE `offers` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `image_url` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `offers`
+--
+
+INSERT INTO `offers` (`id`, `title`, `description`, `image_url`) VALUES
+(1, 'Summer Splash', 'Enjoy the summer with our poolside deals!', 'images/image1.jpg'),
+(2, 'Weekend Getaway', 'Relax and unwind with our weekend promo!', 'images/image2.jfif'),
+(3, 'asd', 'qwe', 'images/image1.jpg'),
+(4, 'ekggesg', 'asdfewgerkjgner', 'images/background2.jpg'),
+(5, 'asd', 'qwe', 'images/background2.jfif'),
+(6, 'qweqw', 'qweqwe', 'images/5a36b7da-c3b0-4be7-b06e-4cfbf0ff1051.jfif');
+
 --
 -- Indexes for dumped tables
 --
@@ -135,11 +184,23 @@ ALTER TABLE `bookings`
   ADD UNIQUE KEY `booking_number` (`booking_number`);
 
 --
+-- Indexes for table `gallery`
+--
+ALTER TABLE `gallery`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `monthly_report`
 --
 ALTER TABLE `monthly_report`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `month` (`month`);
+
+--
+-- Indexes for table `offers`
+--
+ALTER TABLE `offers`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -149,7 +210,7 @@ ALTER TABLE `monthly_report`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `bookings`
@@ -158,10 +219,22 @@ ALTER TABLE `bookings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
+-- AUTO_INCREMENT for table `gallery`
+--
+ALTER TABLE `gallery`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `monthly_report`
 --
 ALTER TABLE `monthly_report`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `offers`
+--
+ALTER TABLE `offers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
