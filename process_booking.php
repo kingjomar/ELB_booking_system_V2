@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $calculated_pax = $adults + $seniors;
     if ($total_pax !== $calculated_pax) {
         $_SESSION['error'] = "Total pax count is incorrect.";
-        header("Location: index.php");
+        header("Location: inquiry_form.php");
         exit();
     }
 
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     date_default_timezone_set('Asia/Manila');
     $date_of_inquiry = date('Y-m-d H:i:s');
 
-   // Entrance Fee (adults + seniors only)
+    // Entrance Fee (adults + seniors only)
     $adult_price = ($swimming_type == 'daytour') ? 180 : 200;
     $senior_price = $adult_price * 0.8;
 
@@ -75,24 +75,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
     )";
     $stmt = $conn->prepare($insertBooking);
-    $stmt->bind_param("sssssssiiiissssiidds",
-    $booking_number, $firstname, $middlename, $lastname, $contact, $address,
-    $swimming_type, $total_pax, $three_yrs, $adults, $seniors,
-    $date_of_reservation, $room_type, $room_qty, $cottage_type, $cottage_qty,
-    $entrance_fee, $cottage_room_fee, $total_amount, $date_of_inquiry
-);
+    $stmt->bind_param(
+        "sssssssiiiissisiddds",
+        $booking_number,
+        $firstname,
+        $middlename,
+        $lastname,
+        $contact,
+        $address,
+        $swimming_type,
+        $total_pax,
+        $three_yrs,
+        $adults,
+        $seniors,
+        $date_of_reservation,
+        $room_type,
+        $room_qty,
+        $cottage_type,
+        $cottage_qty,
+        $entrance_fee,
+        $cottage_room_fee,
+        $total_amount,
+        $date_of_inquiry
+    );
 
-    
+
 
 
     if ($stmt->execute()) {
-        // Store booking details in session to show on index.php
         $_SESSION['booking_number'] = $booking_number;
         $_SESSION['status'] = 'Pending'; // Default is pending
         $_SESSION['success'] = "Booking successful! Your booking number is: $booking_number";
 
         // Redirect back to booking form
-        header("Location: index.php");
+        header("Location: inquiry_form.php");
         exit();
     } else {
         echo "Error: " . $stmt->error;
