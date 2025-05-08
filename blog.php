@@ -114,84 +114,84 @@
     </footer>
 
     <script>
-    const blogData = [{
-            img: 'images/image1.jpg',
-            title: 'Lush Green Villa',
-            date: 'April 1, 2025',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            link: '#'
-        },
-        {
-            img: 'images/image1.jpg',
-            title: 'Tropical Escape',
-            date: 'April 2, 2025',
-            text: 'Suspendisse vitae nisi et lorem feugiat.',
-            link: '#'
-        },
-        {
-            img: 'images/image1.jpg',
-            title: 'Playground Fun',
-            date: 'April 3, 2025',
-            text: 'Aliquam erat volutpat. Curabitur feugiat.',
-            link: '#'
-        },
-        {
-            img: 'images/image1.jpg',
-            title: 'Hidden Paradise',
-            date: 'April 4, 2025',
-            text: 'Nunc laoreet mi nec ipsum tincidunt.',
-            link: '#'
-        },
-        {
-            img: 'images/image1.jpg',
-            title: 'Resort Bliss',
-            date: 'April 5, 2025',
-            text: 'Quisque luctus turpis ut augue tincidunt.',
-            link: '#'
-        },
-        {
-            img: 'images/image1.jpg',
-            title: 'Tranquil Retreat',
-            date: 'April 6, 2025',
-            text: 'Etiam vitae ante nec velit lacinia.',
-            link: '#'
-        },
-        {
-            img: 'images/image1.jpg',
-            title: 'Nature Walk',
-            date: 'April 7, 2025',
-            text: 'Cras non orci sed nulla finibus.',
-            link: '#'
-        },
-        {
-            img: 'images/image1.jpg',
-            title: 'Sunny Resort',
-            date: 'April 8, 2025',
-            text: 'Vestibulum bibendum feugiat libero.',
-            link: '#'
-        },
-        {
-            img: 'images/image1.jpg',
-            title: 'Tropical Getaway',
-            date: 'April 9, 2025',
-            text: 'Morbi nec leo nec nulla feugiat.',
-            link: '#'
-        },
-    ];
+        const blogData = [{
+                img: 'images/image1.jpg',
+                title: 'Lush Green Villa',
+                date: 'April 1, 2025',
+                text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                link: '#'
+            },
+            {
+                img: 'images/image1.jpg',
+                title: 'Tropical Escape',
+                date: 'April 2, 2025',
+                text: 'Suspendisse vitae nisi et lorem feugiat.',
+                link: '#'
+            },
+            {
+                img: 'images/image1.jpg',
+                title: 'Playground Fun',
+                date: 'April 3, 2025',
+                text: 'Aliquam erat volutpat. Curabitur feugiat.',
+                link: '#'
+            },
+            {
+                img: 'images/image1.jpg',
+                title: 'Hidden Paradise',
+                date: 'April 4, 2025',
+                text: 'Nunc laoreet mi nec ipsum tincidunt.',
+                link: '#'
+            },
+            {
+                img: 'images/image1.jpg',
+                title: 'Resort Bliss',
+                date: 'April 5, 2025',
+                text: 'Quisque luctus turpis ut augue tincidunt.',
+                link: '#'
+            },
+            {
+                img: 'images/image1.jpg',
+                title: 'Tranquil Retreat',
+                date: 'April 6, 2025',
+                text: 'Etiam vitae ante nec velit lacinia.',
+                link: '#'
+            },
+            {
+                img: 'images/image1.jpg',
+                title: 'Nature Walk',
+                date: 'April 7, 2025',
+                text: 'Cras non orci sed nulla finibus.',
+                link: '#'
+            },
+            {
+                img: 'images/image1.jpg',
+                title: 'Sunny Resort',
+                date: 'April 8, 2025',
+                text: 'Vestibulum bibendum feugiat libero.',
+                link: '#'
+            },
+            {
+                img: 'images/image1.jpg',
+                title: 'Tropical Getaway',
+                date: 'April 9, 2025',
+                text: 'Morbi nec leo nec nulla feugiat.',
+                link: '#'
+            },
+        ];
 
-    const itemsPerPage = 6;
-    let currentPage = 1;
+        const itemsPerPage = 6;
+        let currentPage = 1;
 
-    function renderBlogGallery(page) {
-        const gallery = document.getElementById('blogGallery');
-        gallery.innerHTML = '';
+        function renderBlogGallery(page) {
+            const gallery = document.getElementById('blogGallery');
+            gallery.innerHTML = '';
 
-        const start = (page - 1) * itemsPerPage;
-        const end = start + itemsPerPage;
-        const pageItems = blogData.slice(start, end);
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageItems = blogData.slice(start, end);
 
-        pageItems.forEach(item => {
-            gallery.innerHTML += `
+            pageItems.forEach(item => {
+                gallery.innerHTML += `
           <div class="col">
             <div class="card h-100">
               <img src="${item.img}" class="card-img-top" alt="${item.title}">
@@ -204,38 +204,38 @@
             </div>
           </div>
         `;
-        });
+            });
 
-        // Scroll to top of gallery
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }
+            // Scroll to top of gallery
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
 
-    function renderPagination() {
-        const totalPages = Math.ceil(blogData.length / itemsPerPage);
-        const pagination = document.getElementById('pagination');
-        pagination.innerHTML = '';
+        function renderPagination() {
+            const totalPages = Math.ceil(blogData.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
 
-        for (let i = 1; i <= totalPages; i++) {
-            pagination.innerHTML += `
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.innerHTML += `
           <li class="page-item ${i === currentPage ? 'active' : ''}">
             <button class="page-link" onclick="goToPage(${i})">${i}</button>
           </li>
         `;
+            }
         }
-    }
 
-    function goToPage(page) {
-        currentPage = page;
-        renderBlogGallery(page);
+        function goToPage(page) {
+            currentPage = page;
+            renderBlogGallery(page);
+            renderPagination();
+        }
+
+        // Initial load
+        renderBlogGallery(currentPage);
         renderPagination();
-    }
-
-    // Initial load
-    renderBlogGallery(currentPage);
-    renderPagination();
     </script>
 </body>
 

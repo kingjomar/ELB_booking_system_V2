@@ -2,17 +2,26 @@
 // Include database connection
 include('db_connect.php');
 
-// Fetch all images from the gallery table
-$result = $conn->query("SELECT * FROM gallery");
+// Pagination settings
+$limit = 6; // Images per page
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
 
+// Count total rows
+$total_result = $conn->query("SELECT COUNT(*) as total FROM gallery");
+$total_row = $total_result->fetch_assoc()['total'];
+$total_pages = ceil($total_row / $limit);
+
+// Fetch current page images
+$result = $conn->query("SELECT * FROM gallery LIMIT $limit OFFSET $offset");
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gallery</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -51,16 +60,14 @@ $result = $conn->query("SELECT * FROM gallery");
             height: 100%;
         }
     </style>
-
 </head>
 
 <body>
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-white bg-white fixed-top shadow-lg">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="images/logo.png" alt="Logo">
-            </a>
+            <a class="navbar-brand" href="#"><img src="images/logo.png" alt="Logo"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -75,14 +82,15 @@ $result = $conn->query("SELECT * FROM gallery");
                 </ul>
                 <a href="inquiry_form.php" class="btn custom-btn shadow-sm px-4 py-2">Book Now</a>
             </div>
-
         </div>
     </nav>
+
     <div class="container-title d-flex justify-content-center align-items-center">
         <div class="overlay w-100 h-100 d-flex justify-content-center align-items-center">
             <h1 class="text-white display-4 fw-bold">Gallery</h1>
         </div>
     </div>
+
     <div class="container mt-5">
         <div class="row">
             <?php while ($row = $result->fetch_assoc()) { ?>
@@ -98,51 +106,46 @@ $result = $conn->query("SELECT * FROM gallery");
                 </div>
             <?php } ?>
         </div>
+
+        <!-- Pagination -->
+        <nav class="mt-4 d-flex justify-content-center">
+            <ul class="pagination">
+                <!-- Previous -->
+                <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+                    <a class="page-link" href="?page=<?= $page - 1 ?>">Previous</a>
+                </li>
+
+                <!-- Page Numbers -->
+                <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+                    <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                        <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                    </li>
+                <?php endfor; ?>
+
+                <!-- Next -->
+                <li class="page-item <?= $page >= $total_pages ? 'disabled' : '' ?>">
+                    <a class="page-link" href="?page=<?= $page + 1 ?>">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 
-    <?php
-    $conn->close();
-    ?>
-
-    <!-- Pagination -->
-    <nav class="mt-4 d-flex justify-content-center">
-        <ul class="pagination">
-            <li class="page-item disabled">
-                <a class="page-link" href="#">Previous</a>
-            </li>
-            <li class="page-item active">
-                <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">2</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">3</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
-    </div>
+    <?php $conn->close(); ?>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-4">
+    <footer class="bg-dark text-white py-4 mt-5">
         <div class="container">
             <div class="row">
-                <!-- Left Section: Logo and Facebook Icon -->
                 <div class="col-md-4 mb-3 text-center">
                     <img src="images/logo.png" alt="El Bernardino Resort Logo" style="max-width: 170px;">
                     <div class="mt-2">
-                        <h5 class=""><i>"A PLACE TO PAUSE, A MOMENT TO REMEMBER"</i></h5>
+                        <h5><i>"A PLACE TO PAUSE, A MOMENT TO REMEMBER"</i></h5>
                         <a href="https://www.facebook.com/elbernardinoresort" target="_blank">
                             <i class="fab fa-facebook fa-2x text-white"></i>
                         </a>
                     </div>
                 </div>
-
-                <!-- Middle Section: Contact Info -->
-                <div class="col-md-4  text-center">
+                <div class="col-md-4 text-center">
                     <h5>Contact</h5>
                     <div class="d-flex justify-content-center align-items-center">
                         <i class="fas fa-envelope me-2"></i>
@@ -157,8 +160,6 @@ $result = $conn->query("SELECT * FROM gallery");
                         <p class="mt-3">San Pedro Rd., Brgy. San Matias, Sto. Tomas Pampanga</p>
                     </div>
                 </div>
-
-                <!-- Right Section: Latest Offers -->
                 <div class="col-md-4 mb-3 text-center">
                     <h5>Get Latest Offers</h5>
                     <p>Sign up to receive the latest offers and news!</p>
@@ -170,11 +171,7 @@ $result = $conn->query("SELECT * FROM gallery");
                     </form>
                 </div>
             </div>
-
-            <!-- Full Width Divider -->
             <hr class="footer-divider">
-
-            <!-- Bottom Section: Copyright & Links -->
             <div class="row">
                 <div class="col text-center">
                     <p class="mb-1">&copy; 2025 El Bernardino Resort. All rights reserved.</p>
@@ -186,142 +183,8 @@ $result = $conn->query("SELECT * FROM gallery");
             </div>
         </div>
     </footer>
-    <script>
-        const images = [{
-                src: 'images/image1.jpg',
-                title: 'Image 1 Title'
-            },
-            {
-                src: 'images/image1.jpg',
-                title: 'Image 2 Title'
-            },
-            {
-                src: 'images/image1.jpg',
-                title: 'Image 3 Title'
-            },
-            {
-                src: 'images/image1.jpg',
-                title: 'Image 4 Title'
-            },
-            {
-                src: 'images/image1.jpg',
-                title: 'Image 5 Title'
-            },
-            {
-                src: 'images/image1.jpg',
-                title: 'Image 6 Title'
-            },
-            {
-                src: 'images/image1.jpg',
-                title: 'Image 7 Title'
-            },
-            {
-                src: 'images/image1.jpg',
-                title: 'Image 8 Title'
-            },
-            {
-                src: 'images/image1.jpg',
-                title: 'Image 9 Title'
-            },
-            {
-                src: 'images/image1.jpg',
-                title: 'Image 10 Title'
-            },
-            {
-                src: 'images/image1.jpg',
-                title: 'Image 11 Title'
-            },
-            {
-                src: 'images/image1.jpg',
-                title: 'Image 12 Title'
-            }
-        ];
 
-        const itemsPerPage = 6;
-        let currentPage = 1;
-
-        function renderGallery(page) {
-            const gallery = document.getElementById('gallery');
-            gallery.innerHTML = '';
-
-            const start = (page - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const pageItems = images.slice(start, end);
-
-            pageItems.forEach(image => {
-                const col = document.createElement('div');
-                col.className = 'col';
-                col.innerHTML = `
-        <div class="text-center">
-          <img src="${image.src}" class="img-fluid rounded shadow" alt="${image.title}">
-          <p class="mt-2">${image.title}</p>
-        </div>
-      `;
-                gallery.appendChild(col);
-            });
-        }
-
-        function renderPagination() {
-            const totalPages = Math.ceil(images.length / itemsPerPage);
-            const pagination = document.querySelector('.pagination');
-            pagination.innerHTML = '';
-
-            const prev = document.createElement('li');
-            prev.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
-            prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
-            prev.addEventListener('click', e => {
-                e.preventDefault();
-                if (currentPage > 1) {
-                    currentPage--;
-                    renderGallery(currentPage);
-                    renderPagination();
-                    scrollToGallery();
-                }
-            });
-            pagination.appendChild(prev);
-
-            for (let i = 1; i <= totalPages; i++) {
-                const li = document.createElement('li');
-                li.className = `page-item ${i === currentPage ? 'active' : ''}`;
-                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-                li.addEventListener('click', e => {
-                    e.preventDefault();
-                    currentPage = i;
-                    renderGallery(currentPage);
-                    renderPagination();
-                    scrollToGallery();
-                });
-                pagination.appendChild(li);
-            }
-
-            const next = document.createElement('li');
-            next.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
-            next.innerHTML = `<a class="page-link" href="#">Next</a>`;
-            next.addEventListener('click', e => {
-                e.preventDefault();
-                if (currentPage < totalPages) {
-                    currentPage++;
-                    renderGallery(currentPage);
-                    renderPagination();
-                    scrollToGallery();
-                }
-            });
-            pagination.appendChild(next);
-        }
-
-        function scrollToGallery() {
-            const galleryTop = document.getElementById('gallery').offsetTop;
-            window.scrollTo({
-                top: galleryTop - 100,
-                behavior: 'smooth'
-            });
-        }
-
-        // Initialize
-        renderGallery(currentPage);
-        renderPagination();
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

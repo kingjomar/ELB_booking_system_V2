@@ -98,33 +98,206 @@ if (isset($_GET['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Booking Management</title>
+    <!-- Bootstrap 5.3.0 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Bootstrap Icons (for icons) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Popper.js (for Bootstrap JS) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap 5.3.0 JS (for accordion functionality) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <style>
+        /* General body styling */
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: row;
+            background-color: #f8f9fa;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            background-color: #ffffff;
+            color: #495057;
+            width: 250px;
+            height: 100%;
+            padding-top: 30px;
+            border-right: 1px solid #ddd;
+            position: fixed;
+            transition: width 0.3s ease-in-out;
+        }
+
+        /* Sidebar header */
+        .sidebar h4 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Sidebar links */
+        .sidebar a {
+            color: #495057;
+            text-decoration: none;
+            padding: 15px;
+            display: block;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .sidebar a:hover {
+            background-color: #f1f3f5;
+            color: #007bff;
+        }
+
+        /* Accordion button styling */
+        .sidebar .accordion-button {
+            font-size: 1rem;
+            text-align: left;
+            background-color: #f8f9fa;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        /* Remove box-shadow on focus */
+        .sidebar .accordion-button:focus {
+            box-shadow: none;
+        }
+
+        /* When the accordion is expanded */
+        .sidebar .accordion-button:not(.collapsed) {
+            background-color: #e9ecef;
+            color: #007bff;
+        }
+
+        /* Hover effect for accordion button */
+        .sidebar .accordion-button:hover {
+            background-color: #f1f3f5;
+        }
+
+        /* Accordion body styling (optional) */
+        .sidebar .accordion-body {
+            padding: 15px;
+        }
+
+        /* Accordion collapse animation */
+        .collapse {
+            transition: all 0.3s ease;
+        }
+
+        /* Accordion expanded state */
+        .sidebar .accordion-button:not(.collapsed) {
+            background-color: #e9ecef;
+            color: #007bff;
+        }
+
+        /* Content area styling */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1;
+            background-color: #f8f9fa;
+        }
+
+        /* Card styling */
+        .card {
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Badge styling */
+        .badge {
+            font-size: 0.9rem;
+        }
+
+        /* Sidebar and content responsive behavior */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+                padding-top: 20px;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            /* Optional: Hide the sidebar on mobile */
+            .sidebar a {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Hover effects for accordion buttons */
+        .sidebar .accordion-button:hover {
+            background-color: #e2e6ea;
+        }
+    </style>
 </head>
 
-<body class="bg-light">
-    <div class="container mt-4">
-        <h2 class="text-center mb-4">Admin Dashboard</h2>
+<body>
+    <div class="sidebar bg-light shadow-lg p-4" style="width: 250px; min-height: 100vh;">
+        <h4 class="text-center mb-4 text-primary font-weight-bold">Admin Panel</h4>
 
-        <!-- Logout Button -->
-        <div class="text-end mb-3">
-            <a href="?logout=true" class="btn btn-danger">Logout</a>
+        <!-- Navigation Links -->
+        <div class="nav flex-column">
+            <a href="admin.php" class="nav-link text-dark py-3 mb-2 rounded-pill hover-shadow">
+                <i class="bi bi-house-door me-2"></i> Dashboard
+            </a>
+            <a href="admin_offer.php" class="nav-link text-dark py-3 mb-2 rounded-pill hover-shadow">
+                <i class="bi bi-calendar-check me-2"></i> Offers
+            </a>
+            <a href="admin_gallery.php" class="nav-link text-dark py-3 mb-2 rounded-pill hover-shadow">
+                <i class="bi bi-person-lines-fill me-2"></i> Gallery
+            </a>
+            <a href="admin_blog.php" class="nav-link text-dark py-3 mb-2 rounded-pill hover-shadow">
+                <i class="bi bi-gear me-2"></i> Blogs
+            </a>
         </div>
 
-        <?php if (isset($_SESSION['success'])): ?>
-            <div id="success-alert" class="alert alert-success">
-                <?php echo htmlspecialchars($_SESSION['success']);
-                unset($_SESSION['success']); ?>
+        <div class="accordion" id="reportAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingReports">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
+                        Reports
+                    </button>
+                </h2>
+                <div id="collapseReports" class="accordion-collapse collapse" aria-labelledby="headingReports"
+                    data-bs-parent="#reportAccordion">
+                    <div class="accordion-body">
+                        <a href="dailyreport.php" class="btn btn-outline-primary w-100 mb-2">Daily Report</a>
+                        <a href="monthlyreport.php" class="btn btn-outline-primary w-100">Monthly Report</a>
+                    </div>
+                </div>
             </div>
-        <?php endif; ?>
+        </div>
 
-        <?php if (isset($_SESSION['error'])): ?>
-            <div id="error-alert" class="alert alert-danger">
-                <?php echo htmlspecialchars($_SESSION['error']);
-                unset($_SESSION['error']); ?>
-            </div>
-        <?php endif; ?>
+        <!-- Logout Button -->
+        <div class="mt-4">
+            <a href="?logout=true"
+                class="btn btn-danger w-100 rounded-pill py-3 d-flex justify-content-center align-items-center hover-shadow">
+                <i class="bi bi-box-arrow-right me-2 text-white"></i> Logout
+            </a>
+        </div>
+    </div>
 
+    <!-- Content Area -->
+    <div class="content">
+        <h2 class="text-center mb-4">Booking Management</h2>
+
+        <!-- Statistics Cards -->
         <div class="row mb-4">
             <div class="col-md-4">
                 <div class="card bg-primary text-white">
@@ -153,12 +326,10 @@ if (isset($_GET['logout'])) {
         </div>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="mb-0">Bookings</h3>
-    <div>
-        <a href="dailyreport.php" class="btn btn-info me-2">Daily Report</a>
-        <a href="monthlyreport.php" class="btn btn-info">Monthly Report</a>
-    </div>
-</div>
+            <h3 class="mb-0">Bookings</h3>
+        </div>
+
+        <!-- Bookings Table -->
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
                 <tr>
@@ -174,7 +345,7 @@ if (isset($_GET['logout'])) {
             <tbody>
                 <?php while ($row = $result->fetch_assoc()) { ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($row['firstname']. ' ' .$row['lastname']); ?></td>
+                        <td><?php echo htmlspecialchars($row['firstname'] . ' ' . $row['lastname']); ?></td>
                         <td><?php echo htmlspecialchars($row['contact']); ?></td>
                         <td><?php echo htmlspecialchars($row['booking_number']); ?></td>
                         <td>
@@ -202,12 +373,11 @@ if (isset($_GET['logout'])) {
 
                                 <?php if ($row['status'] == 'pending') { ?>
                                     <button class="btn btn-success btn-sm"
-                                        onclick="confirmAction(event, 'approve', <?php echo $row['id']; ?>, '<?php echo $row['status']; ?>')">Approve</button>
-                                <?php } elseif ($row['status'] == 'approved') { ?>
-                                    <button type="submit" name="checkout" class="btn btn-danger btn-sm"
-                                        onclick="return confirmAction(event, 'checkout', <?php echo $row['id']; ?>, '<?php echo $row['status']; ?>')">Check-Out</button>
-                                <?php } else { ?>
-                                    <button type="button" class="btn btn-secondary btn-sm" disabled>Checked Out</button>
+                                        onclick="confirmAction(event, 'approve', <?php echo $row['id']; ?>, '<?php echo $row['firstname']; ?>')">Approve</button>
+                                <?php } ?>
+                                <?php if ($row['status'] == 'approved') { ?>
+                                    <button class="btn btn-warning btn-sm"
+                                        onclick="confirmAction(event, 'checkout', <?php echo $row['id']; ?>, '<?php echo $row['firstname']; ?>')">Checkout</button>
                                 <?php } ?>
                             </form>
                         </td>
@@ -216,64 +386,45 @@ if (isset($_GET['logout'])) {
             </tbody>
         </table>
     </div>
-
     <script>
-        setTimeout(function() {
-            let successAlert = document.getElementById('success-alert');
-            let errorAlert = document.getElementById('error-alert');
-            if (successAlert) successAlert.style.display = 'none';
-            if (errorAlert) errorAlert.style.display = 'none';
-        }, 3000);
-    </script>
-    <script>
-        function confirmAction(event, actionType, bookingId, bookingStatus) {
+        function confirmAction(event, actionType, bookingId, firstName) {
             event.preventDefault();
-
-            if (actionType === 'checkout' && bookingStatus !== 'approved') {
-                Swal.fire("Action Not Allowed", "Only approved bookings can be checked out.", "error");
-                return;
-            }
-
             Swal.fire({
-                title: `Are you sure?`,
-                text: `Do you want to ${actionType} this booking?`,
-                icon: "warning",
+                title: `Are you sure you want to ${actionType} this booking?`,
+                text: `${firstName}'s booking will be marked as ${actionType}.`,
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, proceed!"
+                confirmButtonText: `${actionType.charAt(0).toUpperCase() + actionType.slice(1)}`
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch('admin.php', {
+                    // Send the action request via AJAX
+                    fetch('', {
                             method: 'POST',
                             headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded'
+                                'Content-Type': 'application/x-www-form-urlencoded',
                             },
                             body: new URLSearchParams({
-                                actionType,
-                                booking_id: bookingId
+                                booking_id: bookingId,
+                                actionType: actionType,
                             })
                         })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error("Network response was not OK");
-                            }
-                            return response.json();
-                        })
+                        .then(response => response.json())
                         .then(data => {
-                            if (data.success) {
-                                Swal.fire("Success!", data.message, "success").then(() => location.reload());
-                            } else {
-                                Swal.fire("Error!", data.message || "Something went wrong!", "error");
-                            }
+                            Swal.fire('Success!', data.message, 'success');
+                            setTimeout(() => {
+                                window.location.reload(); // Refresh the page after the action
+                            }, 1000);
                         })
                         .catch(error => {
-                            Swal.fire("Error!", "Server Error: " + error.message, "error");
+                            Swal.fire("Error!", "Something went wrong. Please try again.", "error");
                         });
                 }
             });
         }
     </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

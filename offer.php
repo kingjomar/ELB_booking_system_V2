@@ -1,33 +1,32 @@
 <?php
-$host = "localhost";
-$username = "root";  // default for XAMPP
-$password = "";      // default for XAMPP
-$database = "el_bernardino_resort";
+include('db_connect.php');
 
-// Connect to the database
-$conn = new mysqli($host, $username, $password, $database);
+// Pagination logic
+$limit = 9;
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+$start = ($page - 1) * $limit;
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Count total records
+$countResult = $conn->query("SELECT COUNT(*) AS total FROM offers");
+$totalOffers = $countResult->fetch_assoc()['total'];
+$total_pages = ceil($totalOffers / $limit);
 
-// Get offer data
-$sql = "SELECT * FROM offers";
+// Fetch offers for current page
+$sql = "SELECT * FROM offers LIMIT $start, $limit";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style_offer.css">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Offers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style_offer.css" />
+    <link rel="stylesheet" href="style.css" />
     <style>
         .offer-card {
             border: 1px solid #ddd;
@@ -48,12 +47,6 @@ $result = $conn->query($sql);
             padding: 15px;
         }
 
-        .offer-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
         .book-button {
             display: inline-block;
             margin-top: 10px;
@@ -71,6 +64,7 @@ $result = $conn->query($sql);
 </head>
 
 <body>
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-white bg-white fixed-top shadow-lg">
         <div class="container">
@@ -91,14 +85,15 @@ $result = $conn->query($sql);
                 </ul>
                 <a href="inquiry_form.php" class="btn custom-btn shadow-sm px-4 py-2">Book Now</a>
             </div>
-
         </div>
     </nav>
+
     <div class="container-title d-flex justify-content-center align-items-center">
         <div class="overlay w-100 h-100 d-flex justify-content-center align-items-center">
             <h1 class="text-white display-4 fw-bold">Offers</h1>
         </div>
     </div>
+
     <div class="container py-5">
         <h2 class="text-center mb-4">Our Latest Offers</h2>
         <div class="row justify-content-center">
@@ -115,25 +110,48 @@ $result = $conn->query($sql);
                 </div>
             <?php endwhile; ?>
         </div>
+
+        <!-- Pagination -->
+        <?php if ($total_pages > 1): ?>
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <?php if ($page > 1): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<?php echo $page - 1; ?>">Previous</a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                        <li class="page-item <?php echo ($i === $page) ? 'active' : ''; ?>">
+                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        </li>
+                    <?php endfor; ?>
+
+                    <?php if ($page < $total_pages): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<?php echo $page + 1; ?>">Next</a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
+        <?php endif; ?>
     </div>
 
     <!-- Footer -->
     <footer class="bg-dark text-white py-4">
         <div class="container">
             <div class="row">
-                <!-- Left Section: Logo and Facebook Icon -->
                 <div class="col-md-4 mb-3 text-center">
                     <img src="images/logo.png" alt="El Bernardino Resort Logo" style="max-width: 170px;">
                     <div class="mt-2">
-                        <h5 class=""><i>"A PLACE TO PAUSE, A MOMENT TO REMEMBER"</i></h5>
+                        <h5><i>"A PLACE TO PAUSE, A MOMENT TO REMEMBER"</i></h5>
                         <a href="https://www.facebook.com/elbernardinoresort" target="_blank">
                             <i class="fab fa-facebook fa-2x text-white"></i>
                         </a>
                     </div>
                 </div>
 
-                <!-- Middle Section: Contact Info -->
-                <div class="col-md-4  text-center">
+                <div class="col-md-4 text-center">
                     <h5>Contact</h5>
                     <div class="d-flex justify-content-center align-items-center">
                         <i class="fas fa-envelope me-2"></i>
@@ -149,7 +167,6 @@ $result = $conn->query($sql);
                     </div>
                 </div>
 
-                <!-- Right Section: Latest Offers -->
                 <div class="col-md-4 mb-3 text-center">
                     <h5>Get Latest Offers</h5>
                     <p>Sign up to receive the latest offers and news!</p>
@@ -162,10 +179,8 @@ $result = $conn->query($sql);
                 </div>
             </div>
 
-            <!-- Full Width Divider -->
             <hr class="footer-divider">
 
-            <!-- Bottom Section: Copyright & Links -->
             <div class="row">
                 <div class="col text-center">
                     <p class="mb-1">&copy; 2025 El Bernardino Resort. All rights reserved.</p>
@@ -177,6 +192,8 @@ $result = $conn->query($sql);
             </div>
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
