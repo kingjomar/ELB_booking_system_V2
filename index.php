@@ -30,8 +30,8 @@
                     <li class="nav-item"><a class="nav-link" href="about.php">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="offer.php">Offers</a></li>
                     <li class="nav-item"><a class="nav-link" href="gallery.php">Gallery</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.php">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
                 </ul>
                 <a href="inquiry_form.php" class="btn custom-btn shadow-sm px-4 py-2">Book Now</a>
             </div>
@@ -353,25 +353,25 @@
 
 
     <script>
-    const stars = document.querySelectorAll('.star');
-    let currentRating = 0;
+        const stars = document.querySelectorAll('.star');
+        let currentRating = 0;
 
-    stars.forEach(star => {
-        star.addEventListener('click', () => {
-            // Get the rating value from the clicked star
-            currentRating = parseInt(star.getAttribute('data-value'));
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                // Get the rating value from the clicked star
+                currentRating = parseInt(star.getAttribute('data-value'));
 
-            // Update the star ratings based on the clicked star
-            stars.forEach(star => {
-                const starValue = parseInt(star.getAttribute('data-value'));
-                if (starValue <= currentRating) {
-                    star.classList.add('checked');
-                } else {
-                    star.classList.remove('checked');
-                }
+                // Update the star ratings based on the clicked star
+                stars.forEach(star => {
+                    const starValue = parseInt(star.getAttribute('data-value'));
+                    if (starValue <= currentRating) {
+                        star.classList.add('checked');
+                    } else {
+                        star.classList.remove('checked');
+                    }
+                });
             });
         });
-    });
     </script>
 
     <!-- Bootstrap 5 JS Bundle -->

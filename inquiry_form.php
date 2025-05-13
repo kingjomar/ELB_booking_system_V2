@@ -15,6 +15,11 @@ ini_set('display_errors', 1);
     <title>El Bernardino Resort Booking</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style_index.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
         body {
             background: url('https://source.unsplash.com/1600x900/?resort,pool') no-repeat center center/cover;
@@ -40,7 +45,32 @@ ini_set('display_errors', 1);
 </head>
 
 <body>
-    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-white bg-white fixed-top shadow-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="images/logo.png" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarNav">
+                <ul class="navbar-nav me-3">
+                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.php">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="offer.php">Offers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.php">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.php">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
+                </ul>
+                <a href="inquiry_form.php" class="btn custom-btn shadow-sm px-4 py-2">Book Now</a>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="container d-flex justify-content-center align-items-center"
+        style="min-height: 100vh; margin-top: 110px; margin-bottom: 50px;">
         <div class="col-md-8 booking-container">
             <h2 class="text-center text-success mb-5">El Bernardino Resort Booking</h2>
 
@@ -102,7 +132,7 @@ ini_set('display_errors', 1);
                     </div> -->
                 </div>
 
-             <!-- <div class="mb-3" id="barkada-options" style="display: none;">
+                <!-- <div class="mb-3" id="barkada-options" style="display: none;">
                     <label class="form-label">Barkada Package Type:</label>
                     <div class="form-check">
                         <input type="radio" name="barkada_type" value="daytour_barkada" class="form-check-input">
@@ -202,276 +232,351 @@ ini_set('display_errors', 1);
 
                 <button type="submit" class="btn btn-green w-100">Submit Booking</button>
             </form>
-
-          <script>
-    function getNumericValue(selector) {
-        const el = document.querySelector(selector);
-        return el && !isNaN(parseInt(el.value)) ? parseInt(el.value) : 0;
-    }
-
-    function updateTotalPax() {
-        const adults = getNumericValue('input[name="adults"]');
-        const kidsSeniors = getNumericValue('input[name="kids_seniors_pwds"]');
-        const total = adults + kidsSeniors;
-        document.querySelector('input[name="total_pax"]').value = total;
-    }
-    function calculateTotal() {
-    let total = 0;
-    let swimmingType = document.querySelector('input[name="swimming_type"]:checked');
-    let adultPrice = 0, seniorPrice = 0;
-
-    if (swimmingType) {
-        if (swimmingType.value === "daytour") {
-            adultPrice = 180;
-            seniorPrice = 150;
-        } else if (swimmingType.value === "night") {
-            adultPrice = 200;
-            seniorPrice = 160;
-        } else if (swimmingType.value === "overnight") {
-            adultPrice = 0;
-            seniorPrice = 0;
-        }
-    }
-
-    console.log("Swimming Type:", swimmingType ? swimmingType.value : "None");
-    console.log("Adult Price:", adultPrice);
-    console.log("Senior Price:", seniorPrice);
-
-    let adults = getNumericValue('input[name="adults"]');
-    let seniors = getNumericValue('input[name="kids_seniors_pwds"]');
-    let totalPax = adults + seniors;
-
-    console.log("Adults:", adults);
-    console.log("Seniors:", seniors);
-    console.log("Total Pax:", totalPax);
-
-    let adultsTotal = adults * adultPrice;
-    let seniorsTotal = seniors * seniorPrice;
-    total += adultsTotal + seniorsTotal;
-
-    console.log("Adults Total Fee:", adultsTotal);
-    console.log("Seniors Total Fee:", seniorsTotal);
-    console.log("Entrance Total:", total);
-
-    let selectedAccommodation = document.querySelector('input[name="accommodation_type"]:checked')?.value;
-    console.log("Selected Accommodation:", selectedAccommodation);
-
-    if (selectedAccommodation === "room") {
-        let roomType = document.querySelector('select[name="room_type"]').value;
-        let roomQty = getNumericValue('input[name="room_quantity"]');
-        let roomCapacity = 0, roomBaseCost = 0;
-
-        if (roomType === "Deluxe") {
-            roomCapacity = 2;
-            roomBaseCost = 3000;
-        } else if (roomType === "Standard") {
-            roomCapacity = 4;
-            roomBaseCost = 3500;
-        } else if (roomType === "Family") {
-            roomCapacity = 7;
-            roomBaseCost = 5000;
-        }
-
-        console.log("Room Type:", roomType);
-        console.log("Room Quantity:", roomQty);
-        console.log("Room Capacity per Room:", roomCapacity);
-        console.log("Room Base Cost:", roomBaseCost);
-
-        let allowedRoomPax = roomCapacity * roomQty;
-        total += roomBaseCost * roomQty;
-
-        console.log("Allowed Room Pax:", allowedRoomPax);
-        console.log("Room Fee:", roomBaseCost * roomQty);
-
-        let roomExcess = totalPax > allowedRoomPax ? totalPax - allowedRoomPax : 0;
-        let roomExcessCharge = roomExcess * 350;
-        total += roomExcessCharge;
-
-        console.log("Room Excess Pax:", roomExcess);
-        console.log("Room Excess Charge:", roomExcessCharge);
-
-        const roomNotice = document.getElementById('excess_room_notice');
-        if (roomExcess > 0) {
-            roomNotice.textContent = `Room excess: ${roomExcess} pax x ₱350 = ₱${roomExcessCharge}`;
-            roomNotice.classList.remove('d-none');
-        } else {
-            roomNotice.classList.add('d-none');
-        }
-
-        document.getElementById('excess_cottage_notice').classList.add('d-none');
-    } else if (selectedAccommodation === "cottage") {
-        let cottageType = document.querySelector('select[name="cottage_type"]').value;
-        let cottageQty = getNumericValue('input[name="cottage_quantity"]');
-        let cottageCapacity = 0, cottageBaseCost = 0;
-
-        if (["Nipa", "Cave"].includes(cottageType)) {
-            cottageCapacity = 10;
-            cottageBaseCost = 1000;
-        } else if (["Nipa20", "Cave20"].includes(cottageType)) {
-            cottageCapacity = 20;
-            cottageBaseCost = 1800;
-        } else if (cottageType === "Cabana") {
-            cottageCapacity = 10;
-            cottageBaseCost = 1200;
-        }
-
-        console.log("Cottage Type:", cottageType);
-        console.log("Cottage Quantity:", cottageQty);
-        console.log("Cottage Capacity per Unit:", cottageCapacity);
-        console.log("Cottage Base Cost:", cottageBaseCost);
-
-        let allowedCottagePax = cottageCapacity * cottageQty;
-        total += cottageBaseCost * cottageQty;
-
-        console.log("Allowed Cottage Pax:", allowedCottagePax);
-        console.log("Cottage Fee:", cottageBaseCost * cottageQty);
-
-        let cottageExcess = totalPax > allowedCottagePax ? totalPax - allowedCottagePax : 0;
-        let cottageExcessCharge = 0;
-
-        if (cottageExcess > 0) {
-            let totalGroup = adults + seniors;
-            let adultExcess = totalGroup > 0 ? Math.round((adults / totalGroup) * cottageExcess) : 0;
-            let seniorExcess = cottageExcess - adultExcess;
-
-            cottageExcessCharge = cottageExcess * 100;
-            total += cottageExcessCharge;
-
-            console.log("Cottage Excess Pax:", cottageExcess);
-            console.log("Adult Excess Pax:", adultExcess);
-            console.log("Senior Excess Pax:", seniorExcess);
-            console.log("Cottage Excess Charge:", cottageExcessCharge);
-
-            document.getElementById('excess_cottage_notice').textContent =
-                `Cottage excess: ${cottageExcess} pax = ₱${cottageExcess * 100} + Entrance Fee = ₱${cottageExcessCharge}`;
-            document.getElementById('excess_cottage_notice').classList.remove('d-none');
-        } else {
-            document.getElementById('excess_cottage_notice').classList.add('d-none');
-        }
-
-        document.getElementById('excess_room_notice').classList.add('d-none');
-    }
-
-    console.log("Total Computed Amount:", total);
-
-    document.getElementById('total_price_display').value = "₱" + total.toLocaleString();
-    document.getElementById('total_price').value = total;
-}
-
-function getNumericValue(selector) {
-    let value = parseInt(document.querySelector(selector).value);
-    return isNaN(value) ? 0 : value;
-}
-
-
-
-
-    async function confirmBooking(event) {
-        event.preventDefault();
-
-        const result = await Swal.fire({
-            title: 'Are you sure?',
-            text: "You want to submit this booking?",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, submit it!',
-            cancelButtonText: 'Cancel'
-        });
-
-        if (result.isConfirmed) {
-            await Swal.fire({
-                title: 'Submitted!',
-                text: 'Your booking has been submitted.',
-                icon: 'success',
-                showConfirmButton: false,
-                timer: 2000
-            });
-            event.target.submit();
-        } else {
-            Swal.fire('Cancelled', 'Your booking was not submitted.', 'info');
-        }
-    }
-
-    function calculateTotalBarkada() {
-        // Placeholder for barkada package logic
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        function toggleAccommodationSections() {
-            const selected = document.querySelector('input[name="accommodation_type"]:checked')?.value;
-            document.querySelector('.room_type').style.display = (selected === "room") ? "block" : "none";
-            document.querySelector('.cottage_type').style.display = (selected === "cottage") ? "block" : "none";
-        }
-
-        document.querySelectorAll('input[name="accommodation_type"]').forEach(radio => {
-            radio.addEventListener('change', toggleAccommodationSections);
-        });
-
-        document.querySelector('select[name="room_type"]').addEventListener('change', function () {
-            const roomQty = document.querySelector('input[name="room_quantity"]');
-            roomQty.disabled = (this.value === "None");
-            if (this.value === "None") roomQty.value = '';
-        });
-
-        document.querySelector('select[name="cottage_type"]').addEventListener('change', function () {
-            const cottageQty = document.querySelector('input[name="cottage_quantity"]');
-            cottageQty.disabled = (this.value === "None");
-            if (this.value === "None") cottageQty.value = '';
-        });
-
-        document.querySelectorAll('input, select').forEach(el => {
-            el.addEventListener('input', () => {
-                updateTotalPax();
-                calculateTotal();
-                calculateTotalBarkada();
-            });
-            el.addEventListener('change', () => {
-                updateTotalPax();
-                calculateTotal();
-                calculateTotalBarkada();
-            });
-        });
-
-        document.querySelectorAll('input[name="swimming_type"]').forEach(radio => {
-            radio.addEventListener('change', () => {
-                const selectedType = document.querySelector('input[name="swimming_type"]:checked').value;
-                const cottageSection = document.querySelector('.cottage_type');
-                const roomRadio = document.querySelector('input[name="accommodation_type"][value="room"]');
-                const cottageRadio = document.querySelector('input[name="accommodation_type"][value="cottage"]');
-                const accommodationRadios = document.querySelectorAll('input[name="accommodation_type"]');
-                const roomSection = document.querySelector('.room_type');
-
-                if (selectedType === "overnight") {
-                    roomRadio.checked = true;
-                    cottageRadio.checked = false;
-                    cottageRadio.disabled = true;
-                    document.querySelector('.room_type').style.display = "block";
-                    document.querySelector('.cottage_type').style.display = "none";
-                } else {
-                    cottageRadio.disabled = false;
-                    const selectedAccommodation = document.querySelector('input[name="accommodation_type"]:checked')?.value;
-                    document.querySelector('.room_type').style.display = selectedAccommodation === "room" ? "block" : "none";
-                    document.querySelector('.cottage_type').style.display = selectedAccommodation === "cottage" ? "block" : "none";
+            <script>
+                function getNumericValue(selector) {
+                    const el = document.querySelector(selector);
+                    return el && !isNaN(parseInt(el.value)) ? parseInt(el.value) : 0;
                 }
 
-                accommodationRadios.forEach(el => el.dispatchEvent(new Event('change')));
-            });
-        });
+                function updateTotalPax() {
+                    const adults = getNumericValue('input[name="adults"]');
+                    const kidsSeniors = getNumericValue('input[name="kids_seniors_pwds"]');
+                    const total = adults + kidsSeniors;
+                    document.querySelector('input[name="total_pax"]').value = total;
+                }
 
-        // Trigger initial value updates on load
-        document.querySelector('select[name="room_type"]').dispatchEvent(new Event('change'));
-        document.querySelector('select[name="cottage_type"]').dispatchEvent(new Event('change'));
+                function calculateTotal() {
+                    let total = 0;
+                    let swimmingType = document.querySelector('input[name="swimming_type"]:checked');
+                    let adultPrice = 0,
+                        seniorPrice = 0;
 
-        // ✅ Initial calculation fix
-        updateTotalPax();
-        calculateTotal();
-        // calculateTotalBarkada();
-    });
-</script>
+                    if (swimmingType) {
+                        if (swimmingType.value === "daytour") {
+                            adultPrice = 180;
+                            seniorPrice = 150;
+                        } else if (swimmingType.value === "night") {
+                            adultPrice = 200;
+                            seniorPrice = 160;
+                        } else if (swimmingType.value === "overnight") {
+                            adultPrice = 0;
+                            seniorPrice = 0;
+                        }
+                    }
+
+                    console.log("Swimming Type:", swimmingType ? swimmingType.value : "None");
+                    console.log("Adult Price:", adultPrice);
+                    console.log("Senior Price:", seniorPrice);
+
+                    let adults = getNumericValue('input[name="adults"]');
+                    let seniors = getNumericValue('input[name="kids_seniors_pwds"]');
+                    let totalPax = adults + seniors;
+
+                    console.log("Adults:", adults);
+                    console.log("Seniors:", seniors);
+                    console.log("Total Pax:", totalPax);
+
+                    let adultsTotal = adults * adultPrice;
+                    let seniorsTotal = seniors * seniorPrice;
+                    total += adultsTotal + seniorsTotal;
+
+                    console.log("Adults Total Fee:", adultsTotal);
+                    console.log("Seniors Total Fee:", seniorsTotal);
+                    console.log("Entrance Total:", total);
+
+                    let selectedAccommodation = document.querySelector('input[name="accommodation_type"]:checked')?.value;
+                    console.log("Selected Accommodation:", selectedAccommodation);
+
+                    if (selectedAccommodation === "room") {
+                        let roomType = document.querySelector('select[name="room_type"]').value;
+                        let roomQty = getNumericValue('input[name="room_quantity"]');
+                        let roomCapacity = 0,
+                            roomBaseCost = 0;
+
+                        if (roomType === "Deluxe") {
+                            roomCapacity = 2;
+                            roomBaseCost = 3000;
+                        } else if (roomType === "Standard") {
+                            roomCapacity = 4;
+                            roomBaseCost = 3500;
+                        } else if (roomType === "Family") {
+                            roomCapacity = 7;
+                            roomBaseCost = 5000;
+                        }
+
+                        console.log("Room Type:", roomType);
+                        console.log("Room Quantity:", roomQty);
+                        console.log("Room Capacity per Room:", roomCapacity);
+                        console.log("Room Base Cost:", roomBaseCost);
+
+                        let allowedRoomPax = roomCapacity * roomQty;
+                        total += roomBaseCost * roomQty;
+
+                        console.log("Allowed Room Pax:", allowedRoomPax);
+                        console.log("Room Fee:", roomBaseCost * roomQty);
+
+                        let roomExcess = totalPax > allowedRoomPax ? totalPax - allowedRoomPax : 0;
+                        let roomExcessCharge = roomExcess * 350;
+                        total += roomExcessCharge;
+
+                        console.log("Room Excess Pax:", roomExcess);
+                        console.log("Room Excess Charge:", roomExcessCharge);
+
+                        const roomNotice = document.getElementById('excess_room_notice');
+                        if (roomExcess > 0) {
+                            roomNotice.textContent = `Room excess: ${roomExcess} pax x ₱350 = ₱${roomExcessCharge}`;
+                            roomNotice.classList.remove('d-none');
+                        } else {
+                            roomNotice.classList.add('d-none');
+                        }
+
+                        document.getElementById('excess_cottage_notice').classList.add('d-none');
+                    } else if (selectedAccommodation === "cottage") {
+                        let cottageType = document.querySelector('select[name="cottage_type"]').value;
+                        let cottageQty = getNumericValue('input[name="cottage_quantity"]');
+                        let cottageCapacity = 0,
+                            cottageBaseCost = 0;
+
+                        if (["Nipa", "Cave"].includes(cottageType)) {
+                            cottageCapacity = 10;
+                            cottageBaseCost = 1000;
+                        } else if (["Nipa20", "Cave20"].includes(cottageType)) {
+                            cottageCapacity = 20;
+                            cottageBaseCost = 1800;
+                        } else if (cottageType === "Cabana") {
+                            cottageCapacity = 10;
+                            cottageBaseCost = 1200;
+                        }
+
+                        console.log("Cottage Type:", cottageType);
+                        console.log("Cottage Quantity:", cottageQty);
+                        console.log("Cottage Capacity per Unit:", cottageCapacity);
+                        console.log("Cottage Base Cost:", cottageBaseCost);
+
+                        let allowedCottagePax = cottageCapacity * cottageQty;
+                        total += cottageBaseCost * cottageQty;
+
+                        console.log("Allowed Cottage Pax:", allowedCottagePax);
+                        console.log("Cottage Fee:", cottageBaseCost * cottageQty);
+
+                        let cottageExcess = totalPax > allowedCottagePax ? totalPax - allowedCottagePax : 0;
+                        let cottageExcessCharge = 0;
+
+                        if (cottageExcess > 0) {
+                            let totalGroup = adults + seniors;
+                            let adultExcess = totalGroup > 0 ? Math.round((adults / totalGroup) * cottageExcess) : 0;
+                            let seniorExcess = cottageExcess - adultExcess;
+
+                            cottageExcessCharge = cottageExcess * 100;
+                            total += cottageExcessCharge;
+
+                            console.log("Cottage Excess Pax:", cottageExcess);
+                            console.log("Adult Excess Pax:", adultExcess);
+                            console.log("Senior Excess Pax:", seniorExcess);
+                            console.log("Cottage Excess Charge:", cottageExcessCharge);
+
+                            document.getElementById('excess_cottage_notice').textContent =
+                                `Cottage excess: ${cottageExcess} pax = ₱${cottageExcess * 100} + Entrance Fee = ₱${cottageExcessCharge}`;
+                            document.getElementById('excess_cottage_notice').classList.remove('d-none');
+                        } else {
+                            document.getElementById('excess_cottage_notice').classList.add('d-none');
+                        }
+
+                        document.getElementById('excess_room_notice').classList.add('d-none');
+                    }
+
+                    console.log("Total Computed Amount:", total);
+
+                    document.getElementById('total_price_display').value = "₱" + total.toLocaleString();
+                    document.getElementById('total_price').value = total;
+                }
+
+                function getNumericValue(selector) {
+                    let value = parseInt(document.querySelector(selector).value);
+                    return isNaN(value) ? 0 : value;
+                }
+
+
+
+
+                async function confirmBooking(event) {
+                    event.preventDefault();
+
+                    const result = await Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You want to submit this booking?",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, submit it!',
+                        cancelButtonText: 'Cancel'
+                    });
+
+                    if (result.isConfirmed) {
+                        await Swal.fire({
+                            title: 'Submitted!',
+                            text: 'Your booking has been submitted.',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        event.target.submit();
+                    } else {
+                        Swal.fire('Cancelled', 'Your booking was not submitted.', 'info');
+                    }
+                }
+
+                function calculateTotalBarkada() {
+                    // Placeholder for barkada package logic
+                }
+
+                document.addEventListener("DOMContentLoaded", () => {
+                    function toggleAccommodationSections() {
+                        const selected = document.querySelector('input[name="accommodation_type"]:checked')?.value;
+                        document.querySelector('.room_type').style.display = (selected === "room") ? "block" :
+                            "none";
+                        document.querySelector('.cottage_type').style.display = (selected === "cottage") ? "block" :
+                            "none";
+                    }
+
+                    document.querySelectorAll('input[name="accommodation_type"]').forEach(radio => {
+                        radio.addEventListener('change', toggleAccommodationSections);
+                    });
+
+                    document.querySelector('select[name="room_type"]').addEventListener('change', function() {
+                        const roomQty = document.querySelector('input[name="room_quantity"]');
+                        roomQty.disabled = (this.value === "None");
+                        if (this.value === "None") roomQty.value = '';
+                    });
+
+                    document.querySelector('select[name="cottage_type"]').addEventListener('change', function() {
+                        const cottageQty = document.querySelector('input[name="cottage_quantity"]');
+                        cottageQty.disabled = (this.value === "None");
+                        if (this.value === "None") cottageQty.value = '';
+                    });
+
+                    document.querySelectorAll('input, select').forEach(el => {
+                        el.addEventListener('input', () => {
+                            updateTotalPax();
+                            calculateTotal();
+                            calculateTotalBarkada();
+                        });
+                        el.addEventListener('change', () => {
+                            updateTotalPax();
+                            calculateTotal();
+                            calculateTotalBarkada();
+                        });
+                    });
+
+                    document.querySelectorAll('input[name="swimming_type"]').forEach(radio => {
+                        radio.addEventListener('change', () => {
+                            const selectedType = document.querySelector(
+                                'input[name="swimming_type"]:checked').value;
+                            const cottageSection = document.querySelector('.cottage_type');
+                            const roomRadio = document.querySelector(
+                                'input[name="accommodation_type"][value="room"]');
+                            const cottageRadio = document.querySelector(
+                                'input[name="accommodation_type"][value="cottage"]');
+                            const accommodationRadios = document.querySelectorAll(
+                                'input[name="accommodation_type"]');
+                            const roomSection = document.querySelector('.room_type');
+
+                            if (selectedType === "overnight") {
+                                roomRadio.checked = true;
+                                cottageRadio.checked = false;
+                                cottageRadio.disabled = true;
+                                document.querySelector('.room_type').style.display = "block";
+                                document.querySelector('.cottage_type').style.display = "none";
+                            } else {
+                                cottageRadio.disabled = false;
+                                const selectedAccommodation = document.querySelector(
+                                    'input[name="accommodation_type"]:checked')?.value;
+                                document.querySelector('.room_type').style.display =
+                                    selectedAccommodation === "room" ? "block" : "none";
+                                document.querySelector('.cottage_type').style.display =
+                                    selectedAccommodation === "cottage" ? "block" : "none";
+                            }
+
+                            accommodationRadios.forEach(el => el.dispatchEvent(new Event(
+                                'change')));
+                        });
+                    });
+
+                    // Trigger initial value updates on load
+                    document.querySelector('select[name="room_type"]').dispatchEvent(new Event('change'));
+                    document.querySelector('select[name="cottage_type"]').dispatchEvent(new Event('change'));
+
+                    // ✅ Initial calculation fix
+                    updateTotalPax();
+                    calculateTotal();
+                    // calculateTotalBarkada();
+                });
+            </script>
 
 
         </div>
     </div>
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <!-- Left Section: Logo and Facebook Icon -->
+                <div class="col-md-4 mb-3 text-center">
+                    <img src="images/logo.png" alt="El Bernardino Resort Logo" style="max-width: 170px;">
+                    <div class="mt-2">
+                        <h5 class=""><i>"A PLACE TO PAUSE, A MOMENT TO REMEMBER"</i></h5>
+                        <a href="https://www.facebook.com/elbernardinoresort" target="_blank">
+                            <i class="fab fa-facebook fa-2x text-white"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Middle Section: Contact Info -->
+                <div class="col-md-4  text-center">
+                    <h5>Contact</h5>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <i class="fas fa-envelope me-2"></i>
+                        <p class="mt-3">theresort.acctg@gmail.com</p>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <i class="fas fa-phone-alt me-2"></i>
+                        <p class="mt-3">0996-811-1165 / 0960-464-9711</p>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        <p class="mt-3">San Pedro Rd., Brgy. San Matias, Sto. Tomas Pampanga</p>
+                    </div>
+                </div>
+
+                <!-- Right Section: Latest Offers -->
+                <div class="col-md-4 mb-3 text-center">
+                    <h5>Get Latest Offers</h5>
+                    <p>Sign up to receive the latest offers and news!</p>
+                    <form>
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Enter your email" aria-label="Email">
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Full Width Divider -->
+            <hr class="footer-divider">
+
+            <!-- Bottom Section: Copyright & Links -->
+            <div class="row">
+                <div class="col text-center">
+                    <p class="mb-1">&copy; 2025 El Bernardino Resort. All rights reserved.</p>
+                    <p class="mb-0">
+                        <a href="#" class="text-white">Privacy Policy</a> |
+                        <a href="#" class="text-white">Terms of Service</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
 </body>
 
 </html>
