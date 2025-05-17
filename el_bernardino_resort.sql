@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2025 at 08:07 AM
+-- Generation Time: May 17, 2025 at 05:55 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -40,6 +40,27 @@ CREATE TABLE `admin` (
 INSERT INTO `admin` (`id`, `username`, `password`) VALUES
 (1, 'king', 'kingjomarcarlos'),
 (2, 'admin', 'admin1234');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blogs`
+--
+
+CREATE TABLE `blogs` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `date` date NOT NULL,
+  `content` text NOT NULL,
+  `image` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `blogs`
+--
+
+INSERT INTO `blogs` (`id`, `title`, `date`, `content`, `image`) VALUES
+(1, 'sadqweqweqwewq', '2025-05-17', 'sadasdsadasd', 'uploads/482492550_969630398624775_8148580270299583058_n.jpg');
 
 -- --------------------------------------------------------
 
@@ -85,6 +106,48 @@ INSERT INTO `bookings` (`id`, `firstname`, `middlename`, `lastname`, `contact`, 
 (59, 'king', 'ocampo', 'carlos', '09068293575', '35 Alauli Road Tabuyuc', 103101, '2025-04-10', '2025-04-10 08:09:17', '2025-04-10', '16:11:57', NULL, NULL, 'daytour', 10, 1, 10, 0, 'Nipa', 1, '', 0, 2800.00, 'approved', 1800.00, 1000.00),
 (60, 'king', 'ocampo', 'carlos', '09068293575', '35 Alauli Road Tabuyuc', 890980, '2025-04-10', '2025-04-10 09:02:43', '2025-04-10', '17:04:41', NULL, NULL, 'night', 13, 1, 13, 0, 'Cave', 1, 'Standard', 1, 7100.00, 'approved', 2600.00, 4500.00),
 (61, 'king', 'ocampo', 'carlos', '09068293575', '35 Alauli Road Tabuyuc', 792038, '2025-04-10', '2025-04-10 09:04:13', NULL, NULL, NULL, NULL, 'night', 13, 1, 13, 0, 'Cave20', 1, '', 0, 4400.00, 'pending', 2600.00, 1800.00);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contacts`
+--
+
+CREATE TABLE `contacts` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `contacts`
+--
+
+INSERT INTO `contacts` (`id`, `name`, `email`, `subject`, `message`, `created_at`) VALUES
+(1, 'asd', 'asd@gmail.com', 'asd', 'asd', '2025-05-17 03:53:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `rating` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`id`, `message`, `rating`, `created_at`) VALUES
+(1, 'nc nc nc nc nc', 4, '2025-05-17 03:50:26');
 
 -- --------------------------------------------------------
 
@@ -163,7 +226,11 @@ INSERT INTO `offers` (`id`, `title`, `description`, `image_url`) VALUES
 (3, 'asd', 'qwe', 'images/image1.jpg'),
 (4, 'ekggesg', 'asdfewgerkjgner', 'images/background2.jpg'),
 (5, 'asd', 'qwe', 'images/background2.jfif'),
-(6, 'qweqw', 'qweqwe', 'images/5a36b7da-c3b0-4be7-b06e-4cfbf0ff1051.jfif');
+(6, 'qweqw', 'qweqwe', 'images/5a36b7da-c3b0-4be7-b06e-4cfbf0ff1051.jfif'),
+(7, 'asdasd', 'asd', 'images/53dfc030-f5eb-44c9-800a-565f5e2a03cc (1).jfif'),
+(8, 'asdasd', 'qwewqe', 'images/6e6b94b5-f767-470b-8bcd-53f98ac45c59 (1).jfif'),
+(9, 'asdasd', 'qweqwe', 'images/2(3).png'),
+(10, 'asdasd', 'qwewqe', 'images/PLAN YOUR TRIPS WITH US.png');
 
 --
 -- Indexes for dumped tables
@@ -177,11 +244,29 @@ ALTER TABLE `admin`
   ADD UNIQUE KEY `username` (`username`);
 
 --
+-- Indexes for table `blogs`
+--
+ALTER TABLE `blogs`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `bookings`
 --
 ALTER TABLE `bookings`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `booking_number` (`booking_number`);
+
+--
+-- Indexes for table `contacts`
+--
+ALTER TABLE `contacts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `gallery`
@@ -213,10 +298,28 @@ ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `blogs`
+--
+ALTER TABLE `blogs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+
+--
+-- AUTO_INCREMENT for table `contacts`
+--
+ALTER TABLE `contacts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `gallery`
@@ -228,13 +331,13 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT for table `monthly_report`
 --
 ALTER TABLE `monthly_report`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `offers`
 --
 ALTER TABLE `offers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
