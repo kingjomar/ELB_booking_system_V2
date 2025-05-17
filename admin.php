@@ -100,14 +100,16 @@ if (isset($_GET['logout'])) {
     <title>Admin Panel - Booking Management</title>
     <!-- Bootstrap 5.3.0 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Bootstrap Icons (for icons) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Popper.js (for Bootstrap JS) -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <!-- Bootstrap 5.3.0 JS (for accordion functionality) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+
+
+
     <style>
         /* General body styling */
         body {
@@ -189,14 +191,19 @@ if (isset($_GET['logout'])) {
         }
 
         /* Accordion collapse animation */
-        .collapse {
+        /* .collapse {
             transition: all 0.3s ease;
-        }
+        } */
 
         /* Accordion expanded state */
         .sidebar .accordion-button:not(.collapsed) {
             background-color: #e9ecef;
             color: #007bff;
+        }
+
+        /* Hover effects for accordion buttons */
+        .sidebar .accordion-button:hover {
+            background-color: #e2e6ea;
         }
 
         /* Content area styling */
@@ -207,16 +214,19 @@ if (isset($_GET['logout'])) {
             background-color: #f8f9fa;
         }
 
-        /* Card styling */
-        .card {
-            border-radius: 10px;
-            background-color: white;
+        /* Header styling */
+        .header {
+            background-color: #007bff;
+            padding: 15px 30px;
+            border-bottom: 1px solid #ddd;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: #fff;
         }
 
-        /* Badge styling */
-        .badge {
-            font-size: 0.9rem;
+        .header h1 {
+            font-size: 1.75rem;
+            margin: 0;
+            font-weight: bold;
         }
 
         /* Sidebar and content responsive behavior */
@@ -233,65 +243,16 @@ if (isset($_GET['logout'])) {
                 padding: 15px;
             }
 
-            /* Optional: Hide the sidebar on mobile */
-            .sidebar a {
-                font-size: 0.9rem;
+            .header h1 {
+                font-size: 1.5rem;
             }
-        }
-
-        /* Hover effects for accordion buttons */
-        .sidebar .accordion-button:hover {
-            background-color: #e2e6ea;
         }
     </style>
 </head>
 
 <body>
-    <div class="sidebar bg-light shadow-lg p-4" style="width: 250px; min-height: 100vh;">
-        <h4 class="text-center mb-4 text-primary font-weight-bold">Admin Panel</h4>
 
-        <!-- Navigation Links -->
-        <div class="nav flex-column">
-            <a href="admin.php" class="nav-link text-dark py-3 mb-2 rounded-pill hover-shadow">
-                <i class="bi bi-house-door me-2"></i> Dashboard
-            </a>
-            <a href="admin_offer.php" class="nav-link text-dark py-3 mb-2 rounded-pill hover-shadow">
-                <i class="bi bi-calendar-check me-2"></i> Offers
-            </a>
-            <a href="admin_gallery.php" class="nav-link text-dark py-3 mb-2 rounded-pill hover-shadow">
-                <i class="bi bi-person-lines-fill me-2"></i> Gallery
-            </a>
-            <a href="admin_blog.php" class="nav-link text-dark py-3 mb-2 rounded-pill hover-shadow">
-                <i class="bi bi-gear me-2"></i> Blogs
-            </a>
-        </div>
-
-        <div class="accordion" id="reportAccordion">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingReports">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
-                        Reports
-                    </button>
-                </h2>
-                <div id="collapseReports" class="accordion-collapse collapse" aria-labelledby="headingReports"
-                    data-bs-parent="#reportAccordion">
-                    <div class="accordion-body">
-                        <a href="dailyreport.php" class="btn btn-outline-primary w-100 mb-2">Daily Report</a>
-                        <a href="monthlyreport.php" class="btn btn-outline-primary w-100">Monthly Report</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Logout Button -->
-        <div class="mt-4">
-            <a href="?logout=true"
-                class="btn btn-danger w-100 rounded-pill py-3 d-flex justify-content-center align-items-center hover-shadow">
-                <i class="bi bi-box-arrow-right me-2 text-white"></i> Logout
-            </a>
-        </div>
-    </div>
+    <?php include('sidebar.php'); ?>
 
     <!-- Content Area -->
     <div class="content">
@@ -422,7 +383,6 @@ if (isset($_GET['logout'])) {
             });
         }
     </script>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

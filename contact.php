@@ -56,24 +56,28 @@
             <div class="row">
                 <!-- Contact Form -->
                 <div class="col-md-8">
-                    <form>
+                    <form id="contactForm">
                         <div class="mb-3">
-                            <textarea class="form-control" rows="5" placeholder="Your Message..." required></textarea>
+                            <textarea id="contactMessage" class="form-control" rows="5" placeholder="Your Message..."
+                                required></textarea>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Enter your name" required />
+                                <input type="text" id="contactName" class="form-control" placeholder="Enter your name"
+                                    required />
                             </div>
                             <div class="col">
-                                <input type="email" class="form-control" placeholder="Email" required />
+                                <input type="email" id="contactEmail" class="form-control" placeholder="Email"
+                                    required />
                             </div>
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" placeholder="Enter Subject" required />
+                            <input type="text" id="contactSubject" class="form-control" placeholder="Enter Subject"
+                                required />
                         </div>
-                        <div class="d-flex justify-content-center"><button type="submit"
-                                class="submit-btn">Submit</button></div>
-
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="submit-btn">Submit</button>
+                        </div>
                     </form>
                 </div>
 
@@ -86,6 +90,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Footer -->
     <footer class="bg-dark text-white py-4">
@@ -147,6 +152,34 @@
             </div>
         </div>
     </footer>
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const message = document.getElementById('contactMessage').value.trim();
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const subject = document.getElementById('contactSubject').value.trim();
+
+            if (!message || !name || !email || !subject) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            fetch('submit_contact.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `message=${encodeURIComponent(message)}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&subject=${encodeURIComponent(subject)}`
+                })
+                .then(res => res.text())
+                .then(data => {
+                    alert(data);
+                    document.getElementById('contactForm').reset();
+                });
+        });
+    </script>
 </body>
 
 </html>

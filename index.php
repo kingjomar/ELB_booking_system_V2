@@ -1,3 +1,13 @@
+<?php
+// Include your DB connection
+include 'db_connect.php'; // adjust path as needed
+
+// Fetch the 5 latest offers
+$query = "SELECT * FROM offers ORDER BY id DESC LIMIT 5";
+$result = mysqli_query($conn, $query);
+
+$index = 0;
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -168,91 +178,38 @@
         <div class="mt-2 mb-2 d-flex justify-content-center">
             <div class="mt-4 d-flex flex-column align-items-center gap-4">
 
-                <!-- Card 1: Image Left -->
-                <div class="border shadow p-3 d-flex rounded" style="width: 1200px; height: 300px;">
-                    <img src="images/background.jpg" class="rounded"
-                        style="width: 300px; height: 100%; object-fit: cover;" alt="Offer Image">
-                    <div class="d-flex flex-column justify-content-between ps-3 py-1">
-                        <div>
-                            <h4 class="fw-semibold mb-2">Special Offer 1</h4>
-                            <p class="text-muted" style="max-width: 800px;">Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. Impedit corrupti ex placeat aut hic, dignissimos dolore perferendis,
-                                earum autem, magni aspernatur laborum quae. Iure ullam illo ab eum at, quidem numquam
-                                enim!</p>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <button class="btn btn-primary btn-sm w-25">Claim Offer</button>
-                        </div>
+                <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                    <?php
+                    $isEven = $index % 2 === 0;
+                    $cardClass = $isEven ? 'd-flex' : 'd-flex flex-row-reverse text-end';
+                    $textPadding = $isEven ? 'ps-3' : 'pe-3';
+                    ?>
+                    <div class="border shadow p-3 <?= $cardClass ?> rounded" style="width: 1200px; height: 300px;">
+                        <img src="<?= htmlspecialchars($row['image_url']) ?>" class="rounded"
+                            style="width: 300px; height: 100%; object-fit: cover;" alt="Offer Image">
+                        <div class="d-flex flex-column justify-content-between <?= $textPadding ?> py-1">
+                            <div>
+                                <h4 class="fw-semibold mb-2"><?= htmlspecialchars($row['title']) ?></h4>
+                                <p class="text-muted" style="max-width: 800px;"><?= htmlspecialchars($row['description']) ?>
+                                </p>
+                            </div>
+                            <div class="d-flex justify-content-<?= $isEven ? 'start' : 'end' ?>">
+                                <button class="btn btn-primary btn-sm px-4">Claim Offer</button>
+                            </div>
 
+                        </div>
                     </div>
-                </div>
-
-                <!-- Card 2: Image Right -->
-                <div class="border shadow p-3 d-flex flex-row-reverse rounded" style="width: 1200px; height: 300px;">
-                    <img src="images/background.jpg" class="rounded"
-                        style="width: 300px; height: 100%; object-fit: cover;" alt="Offer Image">
-                    <div class="d-flex flex-column justify-content-between pe-3 py-1 text-end">
-                        <div>
-                            <h4 class="fw-semibold mb-2">Special Offer 2</h4>
-                            <p class="text-muted" style="max-width: 800px;">Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Blanditiis quaerat soluta sed odio nulla! Animi molestias atque
-                                debitis modi tempore doloribus, ducimus culpa, non sed voluptatum repudiandae. Veniam
-                                maxime eligendi doloremque autem!</p>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <button class="btn btn-primary btn-sm w-25">Claim Offer</button>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Card 3: Image Left (repeat style of card 1) -->
-                <div class="border shadow p-3 d-flex rounded" style="width: 1200px; height: 300px;">
-                    <img src="images/background.jpg" class="rounded"
-                        style="width: 300px; height: 100%; object-fit: cover;" alt="Offer Image">
-                    <div class="d-flex flex-column justify-content-between ps-3 py-1">
-                        <div>
-                            <h4 class="fw-semibold mb-2">Special Offer 3</h4>
-                            <p class="text-muted" style="max-width: 800px;">Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Delectus distinctio numquam nesciunt modi doloribus repellat ut minus
-                                sint officia, eligendi deleniti consectetur nulla culpa mollitia ea asperiores
-                                doloremque odit possimus a aperiam!</p>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <button class="btn btn-primary btn-sm w-25">Claim Offer</button>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Card 4: Image Right (repeat style of card 2) -->
-                <div class="border shadow p-3 d-flex flex-row-reverse rounded" style="width: 1200px; height: 300px;">
-                    <img src="images/background.jpg" class="rounded"
-                        style="width: 300px; height: 100%; object-fit: cover;" alt="Offer Image">
-                    <div class="d-flex flex-column justify-content-between pe-3 py-1 text-end">
-                        <div>
-                            <h4 class="fw-semibold mb-2">Special Offer 4</h4>
-                            <p class="text-muted" style="max-width: 800px;">Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Necessitatibus deleniti quo, voluptas nemo atque eius! Minus vel
-                                repellendus pariatur minima beatae. Reiciendis iusto consequatur alias dolores dolore
-                                dicta amet consectetur autem quia?</p>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <button class="btn btn-primary btn-sm w-25">Claim Offer</button>
-                        </div>
-
-                    </div>
-                </div>
+                    <?php $index++; ?>
+                <?php endwhile; ?>
 
             </div>
-
         </div>
     </div>
+    <!-- Inside your form container -->
     <div class="feedback mt-5 mb-5">
         <h3 class="text-center mb-4">Your Feedback</h3>
-        <div class="d-flex justify-content-center ">
+        <div class="d-flex justify-content-center">
             <div class="border shadow p-4 w-75 rounded bg-white">
-                <!-- Feedback Form -->
                 <div class="mb-3">
                     <div class="d-flex justify-content-center">
                         <label for="feedbackMessage" class="form-label">Your Message</label>
@@ -261,13 +218,11 @@
                         placeholder="Write your feedback..."></textarea>
                 </div>
 
-                <!-- Star Rating -->
                 <div class="mb-3">
                     <div class="d-flex justify-content-center">
-                        <label for="rating" class="form-label">Rating</label>
+                        <label class="form-label">Rating</label>
                     </div>
                     <div id="rating" class="d-flex justify-content-center">
-                        <!-- Stars -->
                         <span class="star" data-value="1">&#9733;</span>
                         <span class="star" data-value="2">&#9733;</span>
                         <span class="star" data-value="3">&#9733;</span>
@@ -276,13 +231,13 @@
                     </div>
                 </div>
 
-                <!-- Submit Button -->
                 <div class="d-flex justify-content-center">
-                    <button class="btn btn-primary w-25">Submit Feedback</button>
+                    <button id="submitFeedback" class="btn btn-primary w-25">Submit Feedback</button>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 
@@ -350,7 +305,47 @@
     </footer>
 
 
+    <script>
+        let selectedRating = 0;
 
+        // Handle star clicks
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = this.getAttribute('data-value');
+
+                // Highlight stars
+                document.querySelectorAll('.star').forEach(s => {
+                    s.style.color = s.getAttribute('data-value') <= selectedRating ? 'gold' :
+                        '#ccc';
+                });
+            });
+        });
+
+        // Handle form submit
+        document.getElementById('submitFeedback').addEventListener('click', function() {
+            const message = document.getElementById('feedbackMessage').value;
+
+            if (!message || selectedRating == 0) {
+                alert('Please enter your message and select a rating.');
+                return;
+            }
+
+            fetch('submit_feedback.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `message=${encodeURIComponent(message)}&rating=${selectedRating}`
+                })
+                .then(res => res.text())
+                .then(data => {
+                    alert(data);
+                    document.getElementById('feedbackMessage').value = '';
+                    selectedRating = 0;
+                    document.querySelectorAll('.star').forEach(s => s.style.color = '#ccc');
+                });
+        });
+    </script>
 
     <script>
         const stars = document.querySelectorAll('.star');
